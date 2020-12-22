@@ -1,5 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBConnector {
@@ -50,5 +52,24 @@ public class DBConnector {
 	 */
 	public Connection getConnection() {
 		return this.connection;
+	}
+	
+	public String test() {
+		String str = "no result";
+		try {
+			PreparedStatement stmt = this.connection.prepareStatement("show tables");
+			ResultSet rs = stmt.executeQuery();
+			str = "Tables:";
+			while (rs.next()) {
+				str += "<br>" + rs.getString(1);
+			}
+			
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return str;
 	}
 }

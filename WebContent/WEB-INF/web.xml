@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+	<servlet>
+		<servlet-name>TestJDBC</servlet-name>
+		<servlet-class>TestJDBC</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>TestJDBC</servlet-name>
+		<url-pattern>/testjdbc</url-pattern>
+	</servlet-mapping>
 </web-app>
