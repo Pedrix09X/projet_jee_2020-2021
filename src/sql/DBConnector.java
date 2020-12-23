@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBConnector {
 	
@@ -55,7 +56,7 @@ public class DBConnector {
 	public ResultSet executeQuery(String sql, Object[] params) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement stmt = this.connection.prepareStatement(sql);
+			PreparedStatement stmt = this.connection.prepareStatement(sql, 1);
 			if (params != null) {
 				Object param;
 				for (int i = 0; i < params.length; i++) {
@@ -73,11 +74,40 @@ public class DBConnector {
 				}
 			}
 			rs = stmt.executeQuery();
-			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	
+	public int insertQuery(String sql, Object[] params) {
+		int res = -1;
+		try {
+			PreparedStatement stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			if (params != null) {
+				Object param;
+				for (int i = 0; i < params.length; i++) {
+					param = params[i];
+
+					if (param.getClass().equals(String.class)) {
+						stmt.setString(i+1, (String) param);
+					} else if (param.getClass().equals(Integer.class)) {
+						stmt.setInt(i+1, (int) param);
+					} else if (param.getClass().equals(Boolean.class)) {
+						stmt.setBoolean(i+1, (boolean) param);
+					} else if (param.getClass().equals(Date.class)) {
+						stmt.setDate(i+1, (Date) param);
+					}
+				}
+			}
+			ResultSet rs = stmt.getGeneratedKeys();
+			rs.next();
+			res = rs.getInt(1);
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 	
 	/**
