@@ -27,6 +27,7 @@ CREATE TABLE Activity (
     startDate DATE NOT NULL DEFAULT NOW(),
     endDate DATE NOT NULL DEFAULT NOW(),
     location INT NOT NULL,
+    CHECK (startDate <= endDate),
     FOREIGN KEY (user) REFERENCES User(id),
     FOREIGN KEY (location) REFERENCES Location(id)
 );
