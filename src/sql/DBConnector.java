@@ -100,6 +100,7 @@ public class DBConnector {
 					}
 				}
 			}
+			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
 			rs.next();
 			res = rs.getInt(1);

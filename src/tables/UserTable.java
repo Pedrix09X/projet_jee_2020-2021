@@ -26,7 +26,7 @@ public class UserTable implements Table {
 	public static final String COLUMN_ADMIN 	= "isAdmin";
 	
 	@Override
-	public Entity getByID(int id) throws SQLException {
+	public User getByID(int id) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {id});
 		
@@ -94,6 +94,11 @@ public class UserTable implements Table {
 		return false;
 	}
 	
+	/**
+	 * Va mettre à jour les données de la base
+	 * @param e User a mettre à jour
+	 * @return true si tout se passe bien
+	 */
 	private boolean update(User e) {
 		String sql = "UPDATE " + TABLE_NAME + " SET "
 				+ COLUMN_LOGIN + "=? "
@@ -110,6 +115,11 @@ public class UserTable implements Table {
 		return id != -1;
 	}
 	
+	/**
+	 * Va insérer les données du user dans la base
+	 * @param e User à insérer
+	 * @return true si tout ce passe bien 
+	 */
 	private boolean insert(User e) {
 		String sql = "INSERT " + TABLE_NAME + "( "
 				+ COLUMN_LOGIN + ", "

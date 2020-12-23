@@ -2,6 +2,7 @@ package entities;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Instant;
 
 import exception.EntityException;
 
@@ -17,6 +18,18 @@ public class User implements Entity {
 	private boolean contact;
 	private boolean admin;
 
+	public User() {
+		this.id = -1;
+		this.login = "";
+		this.password = "";
+		this.firstName = "";
+		this.lastName = "";
+		this.birthDate = new Date(0);
+		this.infected = false;
+		this.contact = false;
+		this.admin = false;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -61,7 +74,7 @@ public class User implements Entity {
 	 * @throws EntityException si le mot de passe fait plus de 50 caractères
 	 */
 	public void setPassword(String password) throws EntityException {
-		if (login.length() > 20) {
+		if (password.length() > 20) {
 			throw new EntityException("Length of 'password' must be lower then 50");
 		} else {
 			this.password = password;
@@ -78,7 +91,7 @@ public class User implements Entity {
 	 * @throws EntityException si le prénom fait plus de 20 caractères
 	 */
 	public void setFirstName(String firstName) throws EntityException {
-		if (login.length() > 20) {
+		if (firstName.length() > 20) {
 			throw new EntityException("Length of 'firstname' must be lower then 20");
 		} else {
 			this.firstName = firstName;
@@ -95,7 +108,7 @@ public class User implements Entity {
 	 * @throws EntityException si le nom fait plus de 20 caractères
 	 */
 	public void setLastName(String lastName) throws EntityException {
-		if (login.length() > 20) {
+		if (lastName.length() > 20) {
 			throw new EntityException("Length of 'lastname' must be lower then 20");
 		} else {
 			this.lastName = lastName;
