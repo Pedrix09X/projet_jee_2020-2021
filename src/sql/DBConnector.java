@@ -1,4 +1,6 @@
+package sql;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,14 +20,6 @@ public class DBConnector {
 	
 	private DBConnector () {
 		try {
-			// Chargement de la classe
-			try {
-			    Class.forName( "com.mysql.jdbc.Driver" );
-			} catch ( ClassNotFoundException e ) {
-				System.out.println("Erreur lors du chargement de la classe !");
-			    e.printStackTrace();
-			}
-			
 			// Création de la connection
 		    this.connection = DriverManager.getConnection(url, user, pass);
 		} catch ( SQLException e ) {
@@ -54,16 +48,52 @@ public class DBConnector {
 		return this.connection;
 	}
 	
+	public ResultSet executeQuery(String sql) {
+		return executeQuery(sql, null);
+	}
+	
+	public ResultSet executeQuery(String sql, Object[] params) {
+		ResultSet rs = null;
+		try {
+			PreparedStatement stmt = this.connection.prepareStatement(sql);
+			if (params != null) {
+				Object param;
+				for (int i = 0; i < params.length; i++) {
+					param = params[i];
+
+					if (param.getClass().equals(String.class)) {
+						stmt.setString(i+1, (String) param);
+					} else if (param.getClass().equals(Integer.class)) {
+						stmt.setInt(i+1, (int) param);
+					} else if (param.getClass().equals(Boolean.class)) {
+						stmt.setBoolean(i+1, (boolean) param);
+					} else if (param.getClass().equals(Date.class)) {
+						stmt.setDate(i+1, (Date) param);
+					}
+				}
+			}
+			rs = stmt.executeQuery();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	/**
+	 * Methode qui permet de tester la connection a la BDD
+	 * @return String de la liste des tables
+	 */
 	public String test() {
 		String str = "no result";
 		try {
 			PreparedStatement stmt = this.connection.prepareStatement("show tables");
 			ResultSet rs = stmt.executeQuery();
-			str = "Tables:";
+			str = "<p>Tables:";
 			while (rs.next()) {
 				str += "<br>" + rs.getString(1);
 			}
-			
+			str += "</p>";
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {

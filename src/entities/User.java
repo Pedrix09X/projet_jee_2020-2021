@@ -45,11 +45,11 @@ public class User implements Entity {
 	/**
 	 * Change le login de l'utilisateur
 	 * @param login nouveau login. Le login doit contenir maximum 20 caractères
-	 * @throws Exception si le login fait plus de 20 caractères
+	 * @throws EntityException si le login fait plus de 20 caractères
 	 */
-	public void setLogin(String login) throws Exception {
+	public void setLogin(String login) throws EntityException {
 		if (login.length() > 20) {
-			throw new Exception("Length of 'login' must be lower then 20");
+			throw new EntityException("Length of 'login' must be lower then 20");
 		} else {
 			this.login = login;
 		}
@@ -62,11 +62,11 @@ public class User implements Entity {
 	/**
 	 * Change le mot de passe de l'utilisateur
 	 * @param login nouveau mot de passe. Le mot de passe doit contenir maximum 50 caractères
-	 * @throws Exception si le mot de passe fait plus de 50 caractères
+	 * @throws EntityException si le mot de passe fait plus de 50 caractères
 	 */
-	public void setPassword(String password) throws Exception {
+	public void setPassword(String password) throws EntityException {
 		if (login.length() > 20) {
-			throw new Exception("Length of 'password' must be lower then 50");
+			throw new EntityException("Length of 'password' must be lower then 50");
 		} else {
 			this.password = password;
 		}
@@ -79,11 +79,11 @@ public class User implements Entity {
 	/**
 	 * Change le prénom de l'utilisateur
 	 * @param login nouveau prénom. Le prénom doit contenir maximum 20 caractères
-	 * @throws Exception si le prénom fait plus de 20 caractères
+	 * @throws EntityException si le prénom fait plus de 20 caractères
 	 */
-	public void setFirstName(String firstName) throws Exception {
+	public void setFirstName(String firstName) throws EntityException {
 		if (login.length() > 20) {
-			throw new Exception("Length of 'firstname' must be lower then 20");
+			throw new EntityException("Length of 'firstname' must be lower then 20");
 		} else {
 			this.firstName = firstName;
 		}
@@ -96,11 +96,11 @@ public class User implements Entity {
 	/**
 	 * Change le nom de l'utilisateur
 	 * @param login nouveau nom. Le nom doit contenir maximum 20 caractères
-	 * @throws Exception si le nom fait plus de 20 caractères
+	 * @throws EntityException si le nom fait plus de 20 caractères
 	 */
-	public void setLastName(String lastName) throws Exception {
+	public void setLastName(String lastName) throws EntityException {
 		if (login.length() > 20) {
-			throw new Exception("Length of 'lastname' must be lower then 20");
+			throw new EntityException("Length of 'lastname' must be lower then 20");
 		} else {
 			this.lastName = lastName;
 		}

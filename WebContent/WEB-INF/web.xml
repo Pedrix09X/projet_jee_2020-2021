@@ -12,7 +12,7 @@
   
 	<servlet>
 		<servlet-name>TestJDBC</servlet-name>
-		<servlet-class>TestJDBC</servlet-class>
+		<servlet-class>sql/TestJDBC</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
