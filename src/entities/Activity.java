@@ -1,6 +1,6 @@
 package entities;
 
-import java.util.Date;
+import java.sql.Date;
 
 import exception.EntityException;
 
@@ -17,8 +17,8 @@ public class Activity implements Entity {
 	public Activity() {
 		this.id = -1;
 		this.title = "";
-		this.startDate = new Date();
-		this.endDate = new Date();
+		this.startDate = new Date(0);
+		this.endDate = new Date(0);
 		this.location = -1;
 		this.user = null;
 	}
@@ -79,7 +79,7 @@ public class Activity implements Entity {
 	 * @param endDate : la nouvelle date. Elle doit être postérieure à la date de début de l'activité.
 	 * @throws EntityException si la date n'est pas postérieure à la date de début de l'activité.
 	 */
-	public void setendDate(Date endDate) throws EntityException {
+	public void setEndDate(Date endDate) throws EntityException {
 		if (endDate.before(startDate)) {
 			throw new EntityException("'endDate' must come after 'startDate'");
 		} else {
