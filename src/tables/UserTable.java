@@ -53,17 +53,4 @@ public class UserTable implements Table {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<Entity> where(String key, String value) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Entity> where(String key, String op, String value) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

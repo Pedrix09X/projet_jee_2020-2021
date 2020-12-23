@@ -20,23 +20,4 @@ public interface Table {
 	 * @throws SQLException si une erreur SQL se produit
 	 */
 	public List<Entity> getAll() throws SQLException;
-	
-	/**
-	 * Récupère les entités qui satisfont la condition key=value
-	 * @param key nom de la colonne
-	 * @param value valeur à vérifier
-	 * @return Liste des entités cible. Liste vide si aucun résultat n'est trouvé
-	 * @throws SQLException si une erreur SQL se produit
-	 */
-	public List<Entity> where(String key, String value) throws SQLException;
-	
-	/**
-	 * Récupère les entités qui satisfont la condition key op value, avec op dans {=, <, >, <>, like) 
-	 * @param key nom de la colonne
-	 * @param op opérateur de test
-	 * @param value valeur à vérifier
-	 * @return Liste des entités cible. Liste vide si aucun résultat n'est trouvé
-	 * @throws SQLException si une erreur SQL se produit
-	 */
-	public List<Entity> where(String key, String op, String value) throws SQLException;
 }
