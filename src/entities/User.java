@@ -129,4 +129,9 @@ public class User implements Entity {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
+	
+	@Override
+	public String toString() {
+		return "ID: " + this.id + ", LOGIN: " + this.login;
+	}
 }

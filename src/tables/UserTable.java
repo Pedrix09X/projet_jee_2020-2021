@@ -3,6 +3,7 @@ package tables;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Entity;
@@ -50,7 +51,29 @@ public class UserTable implements Table {
 
 	@Override
 	public List<Entity> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM " + TABLE_NAME;
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql);
+		
+		ArrayList<Entity> users = new ArrayList<Entity>();
+		User user = null;
+		if (rs != null) {
+			while (rs.next()) {
+				user = new User();
+				try {
+					user.setId(rs.getInt(1));
+					user.setLogin(rs.getString(2));
+					user.setPassword(rs.getString(3));
+					user.setFirstName(rs.getString(4));
+					user.setLastName(rs.getString(5));
+					user.setInfected(rs.getBoolean(6));
+					user.setContact(rs.getBoolean(7));
+					user.setAdmin(rs.getBoolean(8));
+					users.add(user);
+				} catch (EntityException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return users;
 	}
 }
