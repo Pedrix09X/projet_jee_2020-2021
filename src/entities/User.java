@@ -1,5 +1,6 @@
 package entities;
 
+import java.sql.Date;
 import java.sql.SQLException;
 
 import exception.EntityException;
@@ -11,15 +12,10 @@ public class User implements Entity {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private Date birthDate;
 	private boolean infected;
 	private boolean contact;
 	private boolean admin;
-	
-	@Override
-	public boolean save() throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	public int getId() {
 		return id;
@@ -104,6 +100,14 @@ public class User implements Entity {
 		} else {
 			this.lastName = lastName;
 		}
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public boolean isInfected() {
