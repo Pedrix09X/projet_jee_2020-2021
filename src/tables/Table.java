@@ -20,4 +20,14 @@ public interface Table {
 	 * @throws SQLException si une erreur SQL se produit
 	 */
 	public List<Entity> getAll() throws SQLException;
+	
+	/**
+	 * Permet de sauvegarder l'entité dans la base de donnée. Si l'entité est présente,
+	 * cette méthode executera un update sur la table corresponante. Sinon, elle créera
+	 * une nouvelle entrée dans la table.
+	 * @param e Entity a ajouter
+	 * @return true si l'opéation à reussi.
+	 * @throws SQLException si une erreur SQL s'est produit.
+	 */
+	public boolean save(Entity e) throws SQLException;
 }
