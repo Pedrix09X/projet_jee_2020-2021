@@ -1,5 +1,6 @@
+DROP DATABASE IF EXISTS antiCovid;
 CREATE DATABASE antiCovid;
-use antiCovid;
+USE antiCovid;
 
 CREATE TABLE User (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -10,7 +11,7 @@ CREATE TABLE User (
     birthDate DATE NOT NULL,
     isInfected BOOLEAN NOT NULL DEFAULT 0,
     isContact BOOLEAN NOT NULL DEFAULT 0,
-    isAdmin BOOLEAN NOT NULL
+    isAdmin BOOLEAN NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Location (
@@ -22,22 +23,22 @@ CREATE TABLE Location (
 
 CREATE TABLE Activity (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user INT NOT NULL,
     title TEXT(100) NOT NULL,
     startDate DATE NOT NULL DEFAULT NOW(),
     endDate DATE NOT NULL DEFAULT NOW(),
     location INT NOT NULL,
+    user INT NOT NULL,
     CHECK (startDate <= endDate),
-    FOREIGN KEY (user) REFERENCES User(id),
-    FOREIGN KEY (location) REFERENCES Location(id)
+    FOREIGN KEY (location) REFERENCES Location(id),
+    FOREIGN KEY (user) REFERENCES User(id)
 );
 
 CREATE TABLE Friends (
     user INT NOT NULL,
     friend INT NOT NULL CHECK ( friend <> user ),
-    PRIMARY KEY (user, friend),
     FOREIGN KEY (user) REFERENCES User(id),
-    FOREIGN KEY (friend) REFERENCES User(id)
+    FOREIGN KEY (friend) REFERENCES User(id),
+    PRIMARY KEY (user, friend)
 );
 
 CREATE TABLE Notification (
