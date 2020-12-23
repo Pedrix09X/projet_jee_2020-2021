@@ -1,8 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
-public interface Entity {
+public interface Entity extends Serializable {
 	/**
 	 * Permet de sauvegarder l'entité dans la base de donnée. Si l'entité est présente,
 	 * cette méthode executera un update sur la table corresponante. Sinon, elle créera
