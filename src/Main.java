@@ -5,10 +5,12 @@ import java.util.List;
 import entities.Activity;
 import entities.Entity;
 import entities.Location;
+import entities.Notification;
 import entities.User;
 import exception.EntityException;
 import tables.ActivityTable;
 import tables.LocationTable;
+import tables.NotificationTable;
 import tables.UserTable;
 
 public class Main {
@@ -17,6 +19,7 @@ public class Main {
 		testUser();
 		testLocation();
 		testActivity();
+		testNotification();
 	}
 	
 	private static void testUser() {
@@ -102,6 +105,35 @@ public class Main {
 			List<Entity> locations = locationTable.getAll();
 			for (Entity l : locations) {
 				System.out.println(l.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private static void testNotification() {
+		NotificationTable notificationTable = new NotificationTable();
+		UserTable userTable = new UserTable();
+
+		// test save Notification
+		Notification notification = new Notification();
+		try {
+			notification.setText("Ceci est une notification.");
+			notification.setReceivedDate(new Date(0));
+			notification.setUser(userTable.getByID(1));
+			notificationTable.save(notification);
+		} catch (EntityException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		// test print Notifications
+		try {
+			List<Entity> notifications = notificationTable.getAll();
+			for (Entity n : notifications) {
+				System.out.println(n.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
