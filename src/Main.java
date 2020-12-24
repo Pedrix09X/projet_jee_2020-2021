@@ -15,8 +15,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		testUser();
-		testActivity();
 		testLocation();
+		testActivity();
 	}
 	
 	private static void testUser() {
@@ -52,6 +52,7 @@ public class Main {
 	private static void testActivity() {
 		ActivityTable activityTable = new ActivityTable();
 		UserTable userTable = new UserTable();
+		LocationTable locationTable = new LocationTable();
 
 		// test save Activity
 		Activity activity = new Activity();
@@ -59,7 +60,7 @@ public class Main {
 			activity.setTitle("Chose intéressante");
 			activity.setStartDate(new Date(0));
 			activity.setEndDate(new Date(0));
-			activity.setLocation(1);
+			activity.setLocation(locationTable.getByID(1));
 			activity.setUser(userTable.getByID(1));
 			activityTable.save(activity);
 		} catch (EntityException e) {

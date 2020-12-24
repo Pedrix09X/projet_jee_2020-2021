@@ -10,7 +10,7 @@ public class Activity implements Entity {
 	private String title;
 	private Date startDate;
 	private Date endDate;
-	private int location;
+	private Location location;
 	private User user;
 
 	
@@ -19,7 +19,7 @@ public class Activity implements Entity {
 		this.title = "";
 		this.startDate = new Date(0);
 		this.endDate = new Date(0);
-		this.location = -1;
+		this.location = null;
 		this.user = null;
 	}
 
@@ -87,7 +87,7 @@ public class Activity implements Entity {
 		}
 	}
 
-	public int getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
@@ -96,12 +96,8 @@ public class Activity implements Entity {
 	 * @param location : le nouveau lieu. Doit être supérieur à zéro.
 	 * @throws EntityException si le lieu est inférieur ou égal à 0.
 	 */
-	public void setLocation(int location) throws EntityException {
-		if (location < 1) {
-			throw new EntityException("Location must be greater than 0.");
-		} else {
-			this.location = location;
-		}
+	public void setLocation(Location location) throws EntityException {
+		this.location = location;
 	}
 	
 	public User getUser() {

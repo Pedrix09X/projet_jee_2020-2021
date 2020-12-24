@@ -29,6 +29,7 @@ public class ActivityTable implements Table {
 		
 		Activity activity = null;
 		UserTable userTable = new UserTable();
+		LocationTable locationTable = new LocationTable();
 		if (rs != null) {
 			rs.next();
 			activity = new Activity();
@@ -37,7 +38,7 @@ public class ActivityTable implements Table {
 				activity.setTitle(rs.getString(2));
 				activity.setStartDate(rs.getDate(3));
 				activity.setEndDate(rs.getDate(4));
-				activity.setLocation(rs.getInt(5));
+				activity.setLocation(locationTable.getByID(rs.getInt(5)));
 				activity.setUser(userTable.getByID(rs.getInt(6)));
 			} catch (EntityException e) {
 				e.printStackTrace();
@@ -54,6 +55,7 @@ public class ActivityTable implements Table {
 		ArrayList<Entity> activities = new ArrayList<Entity>();
 		Activity activity = null;
 		UserTable userTable = new UserTable();
+		LocationTable locationTable = new LocationTable();
 		if (rs != null) {
 			while (rs.next()) {
 				activity = new Activity();
@@ -62,7 +64,7 @@ public class ActivityTable implements Table {
 					activity.setTitle(rs.getString(2));
 					activity.setStartDate(rs.getDate(3));
 					activity.setEndDate(rs.getDate(4));
-					activity.setLocation(rs.getInt(5));
+					activity.setLocation(locationTable.getByID(rs.getInt(5)));
 					activity.setUser(userTable.getByID(rs.getInt(6)));
 					activities.add(activity);
 				} catch (EntityException e) {
@@ -118,7 +120,7 @@ public class ActivityTable implements Table {
 				+ COLUMN_LOCATION + ", "
 				+ COLUMN_USER + ") "
 				+ "VALUES(?,?,?,?,?)";
-		Object[] params = {e.getTitle(), e.getStartDate(), e.getEndDate(), e.getLocation(), e.getUser().getId()};
+		Object[] params = {e.getTitle(), e.getStartDate(), e.getEndDate(), e.getLocation().getId(), e.getUser().getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);

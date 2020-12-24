@@ -88,6 +88,6 @@ public class Location implements Entity {
 
 	@Override
 	public String toString() {
-		return "ID : " + this.id + ", TITLE : " + this.name;
+		return "ID : " + this.id + ", NAME : " + this.name;
 	}
 }
