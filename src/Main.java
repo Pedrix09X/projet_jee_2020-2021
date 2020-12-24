@@ -4,9 +4,11 @@ import java.util.List;
 
 import entities.Activity;
 import entities.Entity;
+import entities.Location;
 import entities.User;
 import exception.EntityException;
 import tables.ActivityTable;
+import tables.LocationTable;
 import tables.UserTable;
 
 public class Main {
@@ -14,6 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		testUser();
 		testActivity();
+		testLocation();
 	}
 	
 	private static void testUser() {
@@ -45,7 +48,7 @@ public class Main {
 		}
 	}
 	
-	
+
 	private static void testActivity() {
 		ActivityTable activityTable = new ActivityTable();
 		UserTable userTable = new UserTable();
@@ -70,6 +73,34 @@ public class Main {
 			List<Entity> activities = activityTable.getAll();
 			for (Entity a : activities) {
 				System.out.println(a.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private static void testLocation() {
+		LocationTable locationTable = new LocationTable();
+
+		// test save Location
+		Location location = new Location();
+		try {
+			location.setName("Lieu intéressant");
+			location.setAddress("Rue des feux follets");
+			location.setGPS("48°41'37\"N6°11'05\"E");
+			locationTable.save(location);
+		} catch (EntityException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		// test print Locations
+		try {
+			List<Entity> locations = locationTable.getAll();
+			for (Entity l : locations) {
+				System.out.println(l.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
