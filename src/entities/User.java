@@ -1,8 +1,7 @@
 package entities;
 
 import java.sql.Date;
-import java.sql.SQLException;
-import java.time.Instant;
+import java.util.ArrayList;
 
 import exception.EntityException;
 
@@ -17,6 +16,7 @@ public class User implements Entity {
 	private boolean infected;
 	private boolean contact;
 	private boolean admin;
+	private ArrayList<User> friends;
 
 	public User() {
 		this.id = -1;
@@ -28,6 +28,7 @@ public class User implements Entity {
 		this.infected = false;
 		this.contact = false;
 		this.admin = false;
+		this.friends = new ArrayList<User>();
 	}
 	
 	public int getId() {
@@ -147,6 +148,20 @@ public class User implements Entity {
 		this.admin = admin;
 	}
 	
+	public ArrayList<User> getFriends() {
+		return friends;
+	}
+
+	/**
+	 * Définit la liste d'amis de l'utilisateur.
+	 * @param friends liste d'amis. Si null, ne fait rien.
+	 */
+	public void setFriends(ArrayList<User> friends) {
+		if (friends != null) {
+			this.friends = friends;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "ID: " + this.id + ", LOGIN: " + this.login;

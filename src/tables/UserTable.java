@@ -121,7 +121,7 @@ public class UserTable implements Table {
 	 * @return true si tout ce passe bien 
 	 */
 	private boolean insert(User e) {
-		String sql = "INSERT " + TABLE_NAME + "( "
+		String sql = "INSERT INTO " + TABLE_NAME + "( "
 				+ COLUMN_LOGIN + ", "
 				+ COLUMN_PASSWORD + ", "
 				+ COLUMN_FIRSTNAME + ", "
