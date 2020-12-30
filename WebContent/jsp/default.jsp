@@ -10,6 +10,7 @@
 <title>antiCovid - ${title}</title>
 </head>
 <body>
+	<%@include file="elements/navbar.jsp" %>
 	<% pageContext.include((String) request.getAttribute("page")); %>
 </body>
 </html>
