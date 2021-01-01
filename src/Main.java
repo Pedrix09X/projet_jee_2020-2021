@@ -11,6 +11,7 @@ import exception.EntityException;
 import tables.ActivityTable;
 import tables.LocationTable;
 import tables.NotificationTable;
+import tables.TableLocator;
 import tables.UserTable;
 
 public class Main {
@@ -23,7 +24,7 @@ public class Main {
 	}
 	
 	private static void testUser() {
-		UserTable userTable = new UserTable();
+		UserTable userTable = TableLocator.getUserTable();
 
 		// test save User
 		User user = new User();
@@ -53,9 +54,9 @@ public class Main {
 	
 
 	private static void testActivity() {
-		ActivityTable activityTable = new ActivityTable();
-		UserTable userTable = new UserTable();
-		LocationTable locationTable = new LocationTable();
+		ActivityTable activityTable = TableLocator.getActivityTable();
+		UserTable userTable = TableLocator.getUserTable();
+		LocationTable locationTable = TableLocator.getLocationTable();
 
 		// test save Activity
 		Activity activity = new Activity();
@@ -85,7 +86,7 @@ public class Main {
 
 
 	private static void testLocation() {
-		LocationTable locationTable = new LocationTable();
+		LocationTable locationTable = TableLocator.getLocationTable();
 
 		// test save Location
 		Location location = new Location();
@@ -113,8 +114,8 @@ public class Main {
 
 
 	private static void testNotification() {
-		NotificationTable notificationTable = new NotificationTable();
-		UserTable userTable = new UserTable();
+		NotificationTable notificationTable = TableLocator.getNotificationTable();
+		UserTable userTable = TableLocator.getUserTable();
 
 		// test save Notification
 		Notification notification = new Notification();
