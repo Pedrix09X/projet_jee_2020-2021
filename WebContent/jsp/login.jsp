@@ -4,7 +4,7 @@
 <div class="container">
 	<%@include file="elements/message.jsp" %>
 
-	<form method="post" action="signup">
+	<form method="post" action="login">
 		<div class="form-group row">
 			<label class="col-4 col-form-label" for="login">Nom
 				d'utilisateur</label>
