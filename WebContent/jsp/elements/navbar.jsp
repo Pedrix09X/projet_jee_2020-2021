@@ -24,7 +24,7 @@
 			<li class="navbar-text"><span>Bonjour, <%= user.getLogin() %> !</span></li>
 			<li class="nav-item"><a class="nav-link" href="#">Se déconnecter</a></li>
 		<%} else { %>
-			<li class="nav-item"><a class="nav-link" href="#">Se connecter</a></li>
+			<li class="nav-item"><a class="nav-link" href="login">Se connecter</a></li>
 			<li class="nav-item"><a class="nav-link" href="signup">S'inscrire</a></li>
 		<%} %>
 	</ul>
