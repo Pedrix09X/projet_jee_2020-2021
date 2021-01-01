@@ -20,6 +20,8 @@ public class NotificationTable implements Table {
 	public static final String COLUMN_RECEIVEDDATE 	= "receivedDate";
 	public static final String COLUMN_USER 			= "user";
 	
+	protected NotificationTable() {}
+	
 	@Override
 	public Notification getByID(int id) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";

@@ -15,6 +15,8 @@ public class FriendTable {
 	public static final String COLUMN_USER		= "user";
 	public static final String COLUMN_FRIEND	= "friend";
 	
+	protected FriendTable() {}
+	
 	/**
 	 * Récupère depuis la base de donnée, tous les amis de l'utilisateur et l'ajoute a sa liste d'amis.
 	 * Cet utilisateur doit être enregistré dans la base, donc avoir un ID différent de -1.

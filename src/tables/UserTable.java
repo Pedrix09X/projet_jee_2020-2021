@@ -25,6 +25,8 @@ public class UserTable implements Table {
 	public static final String COLUMN_CONTACT 	= "isContact";
 	public static final String COLUMN_ADMIN 	= "isAdmin";
 	
+	protected UserTable() {}
+	
 	@Override
 	public User getByID(int id) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
@@ -139,5 +141,37 @@ public class UserTable implements Table {
 			e1.printStackTrace();
 		}
 		return id != -1;
+	}
+	
+	/**
+	 * Permet de récupérer un utilisateur avec son login et son mot de passe. Ne doit être utilisé que dans le cadre de la connexion à un compte.
+	 * @param login de l'utilisateur
+	 * @param password de l'utilisateur
+	 * @return Retourne l'utilisateur qui correspond à ces données ou null si aucun utilisateur n'est trouvé
+	 * @throws SQLException Si une erreur SQL se produit
+	 */
+	public User login(String login, String password) throws SQLException {
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_LOGIN + "=? AND " + COLUMN_PASSWORD + "=?";
+		Object[] params = {login, password};
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, params);
+		User user = null;
+		while (rs.next()) {
+			try {
+				user = new User();
+				user.setId(rs.getInt(COLUMN_ID));
+				user.setLogin(rs.getString(COLUMN_LOGIN));
+				user.setPassword(rs.getString(COLUMN_PASSWORD));
+				user.setFirstName(rs.getString(COLUMN_FIRSTNAME));
+				user.setLastName(rs.getString(COLUMN_LASTNAME));
+				user.setBirthDate(rs.getDate(COLUMN_BIRTHDATE));
+				user.setInfected(rs.getBoolean(COLUMN_INFECTED));
+				user.setContact(rs.getBoolean(COLUMN_CONTACT));
+				user.setAdmin(rs.getBoolean(COLUMN_ADMIN));
+			} catch (EntityException e) {
+				e.printStackTrace();
+				user = null;
+			}
+		}
+		return user;
 	}
 }

@@ -20,6 +20,8 @@ public class LocationTable implements Table {
 	public static final String COLUMN_ADDRESS 	= "address";
 	public static final String COLUMN_GPS 		= "gps";
 	
+	protected LocationTable() {}
+	
 	@Override
 	public Location getByID(int id) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";

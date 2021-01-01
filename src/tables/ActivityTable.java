@@ -22,6 +22,8 @@ public class ActivityTable implements Table {
 	public static final String COLUMN_LOCATION 		= "location";
 	public static final String COLUMN_USER			= "user";
 	
+	protected ActivityTable() {}
+	
 	@Override
 	public Activity getByID(int id) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
