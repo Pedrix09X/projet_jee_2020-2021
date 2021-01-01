@@ -6,7 +6,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 	<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link" href="index.jsp">Accueil</a></li>
+			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>">Accueil</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Je suis positif !</a></li>
 		</ul>
 	</div>
@@ -22,7 +22,7 @@
 		if (user != null) {
 		%>
 			<li class="navbar-text"><span>Bonjour, <%= user.getLogin() %> !</span></li>
-			<li class="nav-item"><a class="nav-link" href="#">Se déconnecter</a></li>
+			<li class="nav-item"><a class="nav-link" href="signout">Se déconnecter</a></li>
 		<%} else { %>
 			<li class="nav-item"><a class="nav-link" href="login">Se connecter</a></li>
 			<li class="nav-item"><a class="nav-link" href="signup">S'inscrire</a></li>

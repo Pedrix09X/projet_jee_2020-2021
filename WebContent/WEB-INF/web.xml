@@ -39,4 +39,14 @@
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Signout</servlet-name>
+		<servlet-class>controlers.Signout</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Signout</servlet-name>
+		<url-pattern>/signout</url-pattern>
+	</servlet-mapping>
 </web-app>
