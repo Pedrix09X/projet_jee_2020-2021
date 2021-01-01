@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 <div class="container">
+	<%@include file="elements/message.jsp" %>
+
 	<form method="post" action="signup">
 		<div class="form-group row">
 			<label class="col-4 col-form-label" for="login">Nom

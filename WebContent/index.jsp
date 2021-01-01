@@ -14,6 +14,8 @@
 	<%@include file="jsp/elements/navbar.jsp" %>
 
 	<div class="container">
+		<%@include file="jsp/elements/message.jsp" %>
+		
 		<div class="row">
 			<div class="col-sm-8"><h2>Quelques données sur la pandémie en France</h2></div>
 			<div class="lastUpdate col-sm-4"></div>
