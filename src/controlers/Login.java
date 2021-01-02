@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entities.User;
+import sql.Utils;
 import tables.TableLocator;
 import tables.UserTable;
 
@@ -46,16 +47,16 @@ public class Login extends HttpServlet {
 		UserTable userTable = TableLocator.getUserTable();
 		HttpSession session = request.getSession();
 		try {
-			User user = userTable.login(request.getParameter("login"), request.getParameter("pass"));
+			User user = userTable.login(request.getParameter("login"), Utils.hashPassword(request.getParameter("pass")));
 			if (user == null) {
-				session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrecte");
+				session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");
 				doGet(request, response);
 			} else {
 				session.setAttribute("user", user);
 				session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
 				response.sendRedirect(request.getContextPath());
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			session.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
 			doGet(request, response);
 		}
