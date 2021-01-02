@@ -6,3 +6,8 @@
 <%@include file="successMsg.jsp" %>
 <%@include file="errorMsg.jsp" %>
 <br>
+
+<%
+session.removeAttribute("error");
+session.removeAttribute("success");
+%>

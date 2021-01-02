@@ -8,6 +8,13 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>">Accueil</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Je suis positif !</a></li>
+			<%
+			User user = (User) session.getAttribute("user");
+			if (user != null) {
+			%>
+			<li class="nav-item"><a class="nav-link" href="activity">Liste de mes activités</a></li>
+			<li class="nav-item"><a class="nav-link" href="activity/add">Ajouter une activité</a></li>
+			<%} %>
 		</ul>
 	</div>
 	<div class="mx-auto order-0">
@@ -17,10 +24,7 @@
 		</button>
 	</div>
 	<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-		<%
-		User user = (User) session.getAttribute("user");
-		if (user != null) {
-		%>
+		<%if (user != null) {%>
 			<li class="navbar-text"><span>Bonjour, <%= user.getLogin() %> !</span></li>
 			<li class="nav-item"><a class="nav-link" href="signout">Se déconnecter</a></li>
 		<%} else { %>

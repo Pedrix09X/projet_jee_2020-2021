@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="offset-4 col-8">
+			<div class="offset-8 col-4">
 				<button name="submit" type="submit" class="btn btn-primary">Se
 					connecter</button>
 			</div>

@@ -44,19 +44,19 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserTable userTable = TableLocator.getUserTable();
+		HttpSession session = request.getSession();
 		try {
 			User user = userTable.login(request.getParameter("login"), request.getParameter("pass"));
 			if (user == null) {
-				request.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrecte");
+				session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrecte");
 				doGet(request, response);
 			} else {
-				HttpSession session = request.getSession();
 				session.setAttribute("user", user);
 				session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
 				response.sendRedirect(request.getContextPath());
 			}
 		} catch (SQLException e) {
-			request.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
+			session.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
 			doGet(request, response);
 		}
 	}

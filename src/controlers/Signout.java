@@ -20,7 +20,6 @@ public class Signout extends HttpServlet {
      */
     public Signout() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
