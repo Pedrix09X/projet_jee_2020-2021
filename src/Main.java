@@ -8,6 +8,7 @@ import entities.Location;
 import entities.Notification;
 import entities.User;
 import exception.EntityException;
+import sql.Utils;
 import tables.ActivityTable;
 import tables.LocationTable;
 import tables.NotificationTable;
@@ -30,7 +31,7 @@ public class Main {
 		User user = new User();
 		try {
 			user.setLogin("MEmeMEmeMEme");
-			user.setPassword("JeSaisPlus");
+			user.setPassword(Utils.hashPassword("JeSaisPlus"));
 			user.setFirstName("Moi");
 			user.setLastName("PasMoi");
 			user.setAdmin(true);
@@ -38,6 +39,8 @@ public class Main {
 		} catch (EntityException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	
