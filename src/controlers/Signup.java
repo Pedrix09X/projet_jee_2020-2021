@@ -2,15 +2,22 @@ package controlers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entities.User;
 import exception.EntityException;
+import sql.DBConnector;
+import sql.Utils;
+import tables.TableLocator;
+import tables.UserTable;
 
 @WebServlet("/Signup")
 public class Signup extends HttpServlet {
@@ -38,8 +45,92 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.write("A FAIRE");
+
+		UserTable userTable = TableLocator.getUserTable();
+		HttpSession session = request.getSession();
+		User user = new User();
+		
+		try {
+			String login = request.getParameter("login");
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String password = request.getParameter("pass");
+			String confirmPassword = request.getParameter("passConfirmed");
+
+			// Vérification du format de la date de naissance
+			Date dob;
+			try {
+				dob = Date.valueOf(request.getParameter("birthDate"));
+			} catch (Exception e){
+				dob = null;
+			}
+
+			// Vérification du login
+			if (login.isBlank()) {
+				session.setAttribute("error", "Le login ne doit pas être vide.");
+				doGet(request, response);
+
+			} else {
+				String sql = "SELECT * FROM User";
+				ResultSet res = DBConnector.getInstance().executeQuery(sql);
+				boolean unique = true;
+				if (res != null) {
+					while (res.next() && unique) {
+						if (login.equals(res.getString(2))) {
+							unique = false;
+						}
+					}
+				}
+				if (!unique) {
+					session.setAttribute("error", "Cet identifiant est déjà utilisé.");
+					doGet(request, response);
+
+
+				// Verification du nom et du prénom
+				} else if (lastName.isBlank()) {
+					session.setAttribute("error", "Le nom ne doit pas être vide.");
+					doGet(request, response);
+
+				} else if (firstName.isBlank()) {
+					session.setAttribute("error", "Le prénom ne doit pas être vide.");
+					doGet(request, response);
+
+
+				// Vérification du mot de passe
+				} else if (password.length() < 6) {
+					session.setAttribute("error", "Le mot de passe doit faire au moins 6 caractères.");
+					doGet(request, response);
+
+				} else if (password.isBlank()) {
+					session.setAttribute("error", "Le mot de passe ne doit pas être vide.");
+					doGet(request, response);
+
+				} else if (!password.equals(confirmPassword)) {
+					session.setAttribute("error", "Veuillez confirmer votre mot de passe.");
+					doGet(request, response);	
+
+				// Si tous les paramètres sont corrects, on crée l'utilisateur
+				} else if (dob != null) {
+					user.setLogin(login);
+					user.setFirstName(request.getParameter("firstName"));
+					user.setLastName(request.getParameter("lastName"));
+					user.setPassword(Utils.hashPassword(password));
+					user.setBirthDate(dob);
+
+					userTable.save(user);
+					session.setAttribute("user", user);
+					session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
+					response.sendRedirect(request.getContextPath());
+				} else {
+					session.setAttribute("error", "La date doit être au format YYYY-MM-DD.");
+					doGet(request, response);
+				}	
+			}
+
+		} catch (Exception e) {
+			session.setAttribute("error", "Une erreur est survenu lors de l'inscription. Réessayez ultérieurement.");
+			doGet(request, response);
+		}
 	}
 
 }
