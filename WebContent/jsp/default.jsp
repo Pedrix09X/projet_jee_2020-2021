@@ -12,5 +12,7 @@
 <body>
 	<%@include file="elements/navbar.jsp" %>
 	<% pageContext.include((String) request.getAttribute("page")); %>
+	
+	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
