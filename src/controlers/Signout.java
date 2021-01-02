@@ -29,8 +29,8 @@ public class Signout extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			session.invalidate();
-			request.setAttribute("success", "Vous avez été déconnecté.");
+			session.removeAttribute("user");
+			session.setAttribute("success", "Vous avez été déconnecté.");
 		}
 		response.sendRedirect(request.getContextPath());
 	}

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entities.User;
 import tables.TableLocator;
@@ -49,8 +50,9 @@ public class Login extends HttpServlet {
 				request.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrecte");
 				doGet(request, response);
 			} else {
-				request.getSession().setAttribute("user", user);
-				request.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous désormais connecté.");
+				HttpSession session = request.getSession();
+				session.setAttribute("user", user);
+				session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
 				response.sendRedirect(request.getContextPath());
 			}
 		} catch (SQLException e) {

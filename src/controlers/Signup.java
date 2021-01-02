@@ -39,7 +39,7 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.write("");
+		out.write("A FAIRE");
 	}
 
 }
