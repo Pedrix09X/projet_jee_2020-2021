@@ -49,4 +49,14 @@
 		<servlet-name>Signout</servlet-name>
 		<url-pattern>/signout</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Activity</servlet-name>
+		<servlet-class>controlers.Activity</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Activity</servlet-name>
+		<url-pattern>/activity</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -12,8 +12,8 @@
 			User user = (User) session.getAttribute("user");
 			if (user != null) {
 			%>
-			<li class="nav-item"><a class="nav-link" href="activity">Liste de mes activités</a></li>
-			<li class="nav-item"><a class="nav-link" href="activity/add">Ajouter une activité</a></li>
+			<li class="nav-item"><a class="nav-link" href="activity?s=list">Liste de mes activités</a></li>
+			<li class="nav-item"><a class="nav-link" href="activity?s=add">Ajouter une activité</a></li>
 			<%} %>
 		</ul>
 	</div>
