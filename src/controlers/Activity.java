@@ -1,11 +1,19 @@
 package controlers;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import entities.User;
+import tables.TableLocator;
 
 /**
  * Servlet implementation class Activity
@@ -29,12 +37,38 @@ public class Activity extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		// Si un petit malin essai d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
+		if (user == null) {
+			session.setAttribute("error", "Vous devez être connecté pour accéder à cette ressource.");
+			response.sendRedirect("login");
+			return;
+		}
+		
+		// Si aucun paramêtre n'est donné, on redirige l'utilisateur vers la liste des activités.
+		if (request.getParameter("s") == null) {
+			response.sendRedirect("activity?s=list");
+			return;
+		}
+		
 		if (request.getParameter("s").equals("add")) {
+			// Affiche le formulaire qui permet de créer une activité
 			request.setAttribute("title", TITLE_ADD);
 			request.setAttribute("page", PAGE_ADD);
 		} else {
+			// Affiche la page avec la liste des activités
+			List<entities.Activity> activities = null;
+			try {
+				activities = TableLocator.getActivityTable().getFromUser(user);
+			} catch (SQLException e) {
+				session.setAttribute("error", "Une erreur s'est produite lors de la récupération des activités.");
+				response.sendRedirect(request.getContextPath());
+			}
 			request.setAttribute("title", TITLE_LIST);
 			request.setAttribute("page", PAGE_LIST);
+			request.setAttribute("list", activities);
 		}
 		request.getRequestDispatcher("jsp/default.jsp").forward(request, response);
 	}

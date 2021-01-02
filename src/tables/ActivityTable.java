@@ -7,6 +7,7 @@ import java.util.List;
 
 import entities.Activity;
 import entities.Entity;
+import entities.User;
 import exception.EntityException;
 import sql.DBConnector;
 
@@ -74,6 +75,40 @@ public class ActivityTable implements Table {
 				}
 			}
 			rs.close();
+		}
+		return activities;
+	}
+	
+	/**
+	 * Retourne toutes les activités d'un utilisateur.
+	 * @param user Utilisateur dont les activités sont à retourner.
+	 * @return liste d'activités. La liste peut être vide. Null si user est null.
+	 * @throws SQLException Si une erreur SQL se produit
+	 */
+	public List<Activity> getFromUser(User user) throws SQLException {
+		ArrayList<Activity> activities = null;
+		if (user != null) {
+			activities = new ArrayList<Activity>();
+			String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=?";
+			ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
+			
+			Activity activity = null;
+			LocationTable locationTable = TableLocator.getLocationTable();
+			
+			while (rs.next()) {
+				activity = new Activity();
+				try {
+					activity.setId(rs.getInt(COLUMN_ID));
+					activity.setTitle(rs.getString(COLUMN_TITLE));
+					activity.setStartDate(rs.getDate(COLUMN_STARTDATE));
+					activity.setEndDate(rs.getDate(COLUMN_ENDDATE));
+					activity.setLocation(locationTable.getByID(rs.getInt(COLUMN_LOCATION)));
+					activity.setUser(user);
+					activities.add(activity);
+				} catch (EntityException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return activities;
 	}
