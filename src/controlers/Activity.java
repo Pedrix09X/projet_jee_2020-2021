@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entities.Entity;
 import entities.User;
 import tables.TableLocator;
 
@@ -57,6 +58,12 @@ public class Activity extends HttpServlet {
 			// Affiche le formulaire qui permet de créer une activité
 			request.setAttribute("title", TITLE_ADD);
 			request.setAttribute("page", PAGE_ADD);
+			try {
+				List<Entity> list = TableLocator.getLocationTable().getAll();
+				request.setAttribute("list", list);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		} else {
 			// Affiche la page avec la liste des activités
 			List<entities.Activity> activities = null;
