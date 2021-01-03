@@ -42,7 +42,7 @@
 	</div>
 	<div class="form-group row mb-2">
 		<label for="birthDate" class="col-lg-4 col-form-label">Date de
-			naissance</label>
+			naissance (YYYY-MM-DD)</label>
 		<div class="col-lg-8">
 			<input id="birthDate" name="birthDate" type="date"
 				required="required" class="form-control">
