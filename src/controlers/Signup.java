@@ -45,7 +45,6 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		UserTable userTable = TableLocator.getUserTable();
 		HttpSession session = request.getSession();
 		User user = new User();
@@ -71,20 +70,9 @@ public class Signup extends HttpServlet {
 				doGet(request, response);
 
 			} else {
-				String sql = "SELECT * FROM User";
-				ResultSet res = DBConnector.getInstance().executeQuery(sql);
-				boolean unique = true;
-				if (res != null) {
-					while (res.next() && unique) {
-						if (login.equals(res.getString(2))) {
-							unique = false;
-						}
-					}
-				}
-				if (!unique) {
+				if (!userTable.testLogin(login)) {
 					session.setAttribute("error", "Cet identifiant est déjà utilisé.");
 					doGet(request, response);
-
 
 				// Verification du nom et du prénom
 				} else if (lastName.isBlank()) {

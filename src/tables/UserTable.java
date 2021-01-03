@@ -174,4 +174,25 @@ public class UserTable implements Table {
 		}
 		return user;
 	}
+	
+	/**
+	 * Permet de verifier si un nom d'utilisateur est déjà utilisé par un autre utilisateur
+	 * @param login Le nom d'utilisateur à tester
+	 * @return true si le nom d'utilisateur est unique
+	 */
+	public boolean testLogin(String login) {
+		String sql = "SELECT * FROM User";
+		ResultSet res = DBConnector.getInstance().executeQuery(sql);
+		boolean unique = true;
+		try {
+			if (res != null) {
+				while (res.next() && unique) {
+					if (login.equals(res.getString(2))) {
+						unique = false;
+					}
+				}
+			}
+		} catch (SQLException e) {}
+		return unique;
+	}
 }
