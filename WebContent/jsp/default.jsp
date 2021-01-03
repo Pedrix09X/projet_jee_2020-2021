@@ -11,8 +11,10 @@
 </head>
 <body>
 	<%@include file="elements/navbar.jsp" %>
-	<% pageContext.include((String) request.getAttribute("page")); %>
-	
+	<div class="container p-2">
+		<h2>${title}</h2>
+		<% pageContext.include((String) request.getAttribute("page")); %>
+	</div>
 	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

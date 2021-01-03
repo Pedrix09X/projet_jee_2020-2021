@@ -13,7 +13,7 @@
 
 	<%@include file="jsp/elements/navbar.jsp" %>
 
-	<div class="container">
+	<div class="container p-2">
 		<%@include file="jsp/elements/message.jsp" %>
 		
 		<div class="row mb-4">
