@@ -59,4 +59,14 @@
 		<servlet-name>Activity</servlet-name>
 		<url-pattern>/activity</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Location</servlet-name>
+		<servlet-class>controlers.Location</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Location</servlet-name>
+		<url-pattern>/location</url-pattern>
+	</servlet-mapping>
 </web-app>

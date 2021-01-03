@@ -26,7 +26,6 @@ function updateStats(data, status) {
 
 function transformNumber(number) {
 	number = number.toString().split("").reverse().join("");
-	console.log(number)
 	var val = "";
 	for (var i = 0; i < number.length; i++) {
 		if (i % 3 == 0) {
