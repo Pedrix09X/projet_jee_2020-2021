@@ -45,7 +45,7 @@ public class LocationTable implements Table {
 
 	@Override
 	public List<Entity> getAll() throws SQLException {
-		String sql = "SELECT * FROM " + TABLE_NAME;
+		String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_NAME;
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql);
 		
 		ArrayList<Entity> locations = new ArrayList<Entity>();

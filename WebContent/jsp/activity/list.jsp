@@ -15,8 +15,8 @@ if (activities.size() > 0) {
 		for (Activity activity : activities) {
 	%>
 	<div
-		class="d-flex justify-content-lg-evenly shadow p-3 mb-4 bg-light text-dark rounded-3">
-		<div class="p-2"><%=activity.getTitle()%></div>
+		class="d-flex justify-content-lg-evenly shadow-sm p-3 mb-4 text-dark rounded-3">
+		<div class="p-2 flex-lg-fill"><%=activity.getTitle()%></div>
 		<div class="p-2"><%=activity.getStartDate().toString()%></div>
 		<div class="p-2"><%=activity.getEndDate().toString()%></div>
 	</div>

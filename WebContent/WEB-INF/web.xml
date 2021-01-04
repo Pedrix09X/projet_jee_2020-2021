@@ -69,4 +69,9 @@
 		<servlet-name>Location</servlet-name>
 		<url-pattern>/location</url-pattern>
 	</servlet-mapping>
+	
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>filters.EncodingFilter</filter-class>
+	</filter>
 </web-app>
