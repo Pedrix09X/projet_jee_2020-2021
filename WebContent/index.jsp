@@ -24,17 +24,17 @@
 			<div class="col-lg-12"><h4>Depuis la dernières mise à jour</h4></div>
 		</div>
 		<div class="d-lg-flex justify-content-evenly mb-4">
-			<div class="shadow text-center diffCase p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>cas confirmés</div>
-			<div class="shadow text-center diffDeath p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>décès</div>
-			<div class="shadow text-center diffRecov p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>récupérés</div>
+			<div class="shadow text-center diffCase p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>cas confirmés</div>
+			<div class="shadow text-center diffDeath p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>décès</div>
+			<div class="shadow text-center diffRecov p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>récupérés</div>
 		</div>
 		<div class="row totalLabel">
 			<div class="col-lg-12"><h4>Total</h4></div>
 		</div>
 		<div class="d-lg-flex justify-content-evenly mb-4">
-			<div class="shadow text-center totCase p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>cas confirmés</div>
-			<div class="shadow text-center totDeath p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>décès</div>
-			<div class="shadow text-center totRecov p-4 bd-highlight col-lg-3 rounded-3"><p class="fs-3 fw-bold"></p>récupérés</div>
+			<div class="shadow text-center totCase p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>cas confirmés</div>
+			<div class="shadow text-center totDeath p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>décès</div>
+			<div class="shadow text-center totRecov p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>récupérés</div>
 		</div>
 	</div>
 

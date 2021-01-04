@@ -1,6 +1,6 @@
 package entities;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import exception.EntityException;
 
@@ -8,8 +8,8 @@ public class Activity implements Entity {
 	
 	private int id;
 	private String title;
-	private Date startDate;
-	private Date endDate;
+	private Timestamp startDate;
+	private Timestamp endDate;
 	private Location location;
 	private User user;
 
@@ -17,8 +17,8 @@ public class Activity implements Entity {
 	public Activity() {
 		this.id = -1;
 		this.title = "";
-		this.startDate = new Date(0);
-		this.endDate = new Date(0);
+		this.startDate = new Timestamp(0);
+		this.endDate = new Timestamp(0);
 		this.location = null;
 		this.user = null;
 	}
@@ -58,32 +58,32 @@ public class Activity implements Entity {
 		}
 	}
 
-	public Date getStartDate() {
+	public Timestamp getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * Change la date de début de l'activité.
-	 * @param startDate : la nouvelle date  de début.
+	 * @param timestamp : la nouvelle date  de début.
 	 */
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartDate(Timestamp timestamp) {
+		this.startDate = timestamp;
 	}
 
-	public Date getEndDate() {
+	public Timestamp getEndDate() {
 		return endDate;
 	}
 
 	/**
 	 * Change la date de fin de l'activité
-	 * @param endDate : la nouvelle date. Elle doit être postérieure à la date de début de l'activité.
+	 * @param timestamp : la nouvelle date. Elle doit être postérieure à la date de début de l'activité.
 	 * @throws EntityException si la date n'est pas postérieure à la date de début de l'activité.
 	 */
-	public void setEndDate(Date endDate) throws EntityException {
-		if (endDate.before(startDate)) {
+	public void setEndDate(Timestamp timestamp) throws EntityException {
+		if (timestamp.before(startDate)) {
 			throw new EntityException("'endDate' must come after 'startDate'");
 		} else {
-			this.endDate = endDate;
+			this.endDate = timestamp;
 		}
 	}
 

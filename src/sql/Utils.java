@@ -1,5 +1,8 @@
 package sql;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,15 +32,30 @@ public class Utils {
 	}
 	
 	/**
-	 * Convertis une instance de java.util.Date en instance de java.sql.Date
-	 * @param utilDate de instance java.util.Date à convertir
-	 * @return une instance de java.sql.Date
+	 * Crée une instance de Timestamp à l'aide d'une chaine de caractère comportant la date et l'heure.
+	 * @param dateStr String à convertir en Timestamp
+	 * @return La date et l'heure dans un objet Timestamp
 	 */
-	public static java.sql.Date convertUtilToSqlDate(java.util.Date utilDate) {
-		Instant instant = utilDate.toInstant();
-		ZoneId zoneId = ZoneId.of("GMT+1");
-		ZonedDateTime zdt = ZonedDateTime.ofInstant(instant , zoneId);
-		LocalDate localDate = zdt.toLocalDate();
-		return java.sql.Date.valueOf(localDate);
+	public static Timestamp getTimestampOf(String dateStr) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Timestamp ts;
+		try {
+			ts = new Timestamp(sdf.parse(dateStr).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+			ts = null;
+		}
+		
+		return ts;
+	}
+	
+	/**
+	 * Génère une chaine de caractère représentant la date et l'heure de l'instance Timestamp
+	 * @param ts Timestamp représentant la date et l'heure
+	 * @return la date et l'heure au format "dd/MM/yyyy 'à' HH:mm"
+	 */
+	public static String dateToString(Timestamp ts) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm");
+		return sdf.format(ts);
 	}
 }

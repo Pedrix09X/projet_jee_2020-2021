@@ -101,11 +101,10 @@ public class Activity extends HttpServlet {
 		
 		try {
 			String name = request.getParameter("activityName");
-			Date start, end;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");	// On définit le format de la date qui est récupéré
+			Timestamp start, end;
 			try {
-				start = Utils.convertUtilToSqlDate(sdf.parse(request.getParameter("start")));	// On parse la date reçu pour créer un objet java.util.Date et on convertit en java.sql.Date
-				end = Utils.convertUtilToSqlDate(sdf.parse(request.getParameter("end")));
+				start = Utils.getTimestampOf(request.getParameter("start"));	// On récupère le timestamp correspondant au parametre recu
+				end = Utils.getTimestampOf(request.getParameter("end"));
 			} catch (Exception e){
 				e.printStackTrace();
 				start = null;
@@ -147,7 +146,11 @@ public class Activity extends HttpServlet {
 			activity.setEndDate(end);
 			activity.setLocation(TableLocator.getLocationTable().getByID(locID));
 			activity.setUser(user);
-			TableLocator.getActivityTable().save(activity);
+			if (!TableLocator.getActivityTable().save(activity)) {
+				session.setAttribute("error", "Impossible d'ajouter l'activité. Réessayez ultérieurement.");
+				response.sendRedirect("activity?s=add");
+				return;
+			}
 			
 			session.setAttribute("success", "Activité ajouté avec succès.");
 			response.sendRedirect("activity?s=list");

@@ -39,8 +39,8 @@ public class ActivityTable implements Table {
 			try {
 				activity.setId(rs.getInt(1));
 				activity.setTitle(rs.getString(2));
-				activity.setStartDate(rs.getDate(3));
-				activity.setEndDate(rs.getDate(4));
+				activity.setStartDate(rs.getTimestamp(3));
+				activity.setEndDate(rs.getTimestamp(4));
 				activity.setLocation(locationTable.getByID(rs.getInt(5)));
 				activity.setUser(userTable.getByID(rs.getInt(6)));
 			} catch (EntityException e) {
@@ -65,8 +65,8 @@ public class ActivityTable implements Table {
 				try {
 					activity.setId(rs.getInt(1));
 					activity.setTitle(rs.getString(2));
-					activity.setStartDate(rs.getDate(3));
-					activity.setEndDate(rs.getDate(4));
+					activity.setStartDate(rs.getTimestamp(3));
+					activity.setEndDate(rs.getTimestamp(4));
 					activity.setLocation(locationTable.getByID(rs.getInt(5)));
 					activity.setUser(userTable.getByID(rs.getInt(6)));
 					activities.add(activity);
@@ -89,7 +89,7 @@ public class ActivityTable implements Table {
 		ArrayList<Activity> activities = null;
 		if (user != null) {
 			activities = new ArrayList<Activity>();
-			String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=?";
+			String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=? ORDER BY " + COLUMN_ENDDATE + " DESC";
 			ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
 			
 			Activity activity = null;
@@ -100,8 +100,8 @@ public class ActivityTable implements Table {
 				try {
 					activity.setId(rs.getInt(COLUMN_ID));
 					activity.setTitle(rs.getString(COLUMN_TITLE));
-					activity.setStartDate(rs.getDate(COLUMN_STARTDATE));
-					activity.setEndDate(rs.getDate(COLUMN_ENDDATE));
+					activity.setStartDate(rs.getTimestamp(COLUMN_STARTDATE));
+					activity.setEndDate(rs.getTimestamp(COLUMN_ENDDATE));
 					activity.setLocation(locationTable.getByID(rs.getInt(COLUMN_LOCATION)));
 					activity.setUser(user);
 					activities.add(activity);

@@ -1,3 +1,4 @@
+<%@ page import="sql.Utils"%>
 <%@ page import="entities.Activity"%>
 <%@ page import="java.util.List"%>
 
@@ -15,10 +16,12 @@ if (activities.size() > 0) {
 		for (Activity activity : activities) {
 	%>
 	<div
-		class="d-flex justify-content-lg-evenly shadow-sm p-3 mb-4 text-dark rounded-3">
-		<div class="p-2 flex-lg-fill"><%=activity.getTitle()%></div>
-		<div class="p-2"><%=activity.getStartDate().toString()%></div>
-		<div class="p-2"><%=activity.getEndDate().toString()%></div>
+		class="d-flex justify-content-lg-evenly shadow p-3 mb-4 bg-secondary bg-gradient text-white rounded-3">
+		<div class="p-2"><%=activity.getTitle()%>: </div>
+		<div class="p-2 flex-lg-fill"><%=activity.getLocation().getAddress()%></div>
+		<div class="p-2"><%=Utils.dateToString(activity.getStartDate())%></div>
+		<div class="p-2"> - </div>
+		<div class="p-2"><%=Utils.dateToString(activity.getEndDate())%></div>
 	</div>
 	<%
 		}
