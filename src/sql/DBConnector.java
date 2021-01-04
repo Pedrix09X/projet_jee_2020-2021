@@ -83,6 +83,7 @@ public class DBConnector {
 	
 	public int insertQuery(String sql, Object[] params) {
 		int res = -1;
+		boolean isUpdate = sql.toUpperCase().startsWith("UPDATE");
 		try {
 			PreparedStatement stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			if (params != null) {
@@ -98,13 +99,17 @@ public class DBConnector {
 						stmt.setBoolean(i+1, (boolean) param);
 					} else if (param.getClass().equals(Timestamp.class)) {
 						stmt.setTimestamp(i+1, (Timestamp) param);
+					} else if (param.getClass().equals(Date.class)) {
+						stmt.setDate(i+1, (Date) param);
 					}
 				}
 			}
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
-			rs.next();
-			res = rs.getInt(1);
+			if (rs.next() && !isUpdate)
+				res = rs.getInt(1);
+			else if (isUpdate)
+				res = 0;
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

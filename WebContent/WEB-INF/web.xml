@@ -70,6 +70,16 @@
 		<url-pattern>/location</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Covided</servlet-name>
+		<servlet-class>controlers.Covided</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Covided</servlet-name>
+		<url-pattern>/covided</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>filters.EncodingFilter</filter-class>

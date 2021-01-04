@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Activity;
 import entities.Entity;
+import entities.Location;
 import entities.User;
 import exception.EntityException;
 import sql.DBConnector;
@@ -103,13 +105,13 @@ public class UserTable implements Table {
 	 */
 	private boolean update(User e) {
 		String sql = "UPDATE " + TABLE_NAME + " SET "
-				+ COLUMN_LOGIN + "=? "
-				+ COLUMN_PASSWORD + "=? "
-				+ COLUMN_FIRSTNAME + "=? "
-				+ COLUMN_LASTNAME + "=? "
-				+ COLUMN_BIRTHDATE + "=? "
-				+ COLUMN_INFECTED + "=? "
-				+ COLUMN_CONTACT + "=? "
+				+ COLUMN_LOGIN + "=?, "
+				+ COLUMN_PASSWORD + "=?, "
+				+ COLUMN_FIRSTNAME + "=?, "
+				+ COLUMN_LASTNAME + "=?, "
+				+ COLUMN_BIRTHDATE + "=?, "
+				+ COLUMN_INFECTED + "=?, "
+				+ COLUMN_CONTACT + "=?, "
 				+ COLUMN_ADMIN + "=? "
 				+ "WHERE " + COLUMN_ID + "=?";
 		Object[] params = {e.getLogin(), e.getPassword(), e.getFirstName(), e.getLastName(), e.getBirthDate(), e.isInfected(), e.isContact(), e.isAdmin(), e.getId()};
@@ -194,5 +196,65 @@ public class UserTable implements Table {
 			}
 		} catch (SQLException e) {}
 		return unique;
+	}
+
+	/**
+	 * Marque l'utilisateur comme infecté et cherche tous les utilisateur qui ont visité les même lieux afin de les marquer comme cas contact.
+	 * @param user Utilisateur à infecté
+	 * @return true si l'opération à reussi
+	 */
+	public boolean markUserAsInfected(User user) {
+		boolean done = false;
+		
+		// Cette longue requête SQL va récupérer, dans le BDD, tous les utilisateurs qui ont été en contact avec l'utilisateur infecté ces 10 derniers jours
+		String sql = "SELECT * FROM " + UserTable.TABLE_NAME
+				+ " WHERE " + UserTable.TABLE_NAME + "." + UserTable.COLUMN_ID + " IN ("
+				+ "    SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER
+				+ "    FROM " + ActivityTable.TABLE_NAME
+				+ "    WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + "> CURRENT_TIMESTAMP() - INTERVAL 10 DAY"
+				+ "      AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID + " IN ("
+				+ "        SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID
+				+ "        FROM " + ActivityTable.TABLE_NAME
+				+ "        WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION + " IN ("
+				+ "                SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION
+				+ "                FROM " + ActivityTable.TABLE_NAME
+				+ "                WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " = ?"
+				+ "                  AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " > CURRENT_TIMESTAMP() - INTERVAL 10 DAY)));";
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
+		
+		// Parcours du résultat de la requête 
+		try {
+			User kUser;
+			while (rs.next()) {
+				// Récupération de l'utilisateur par l'ID
+				kUser = this.getByID(rs.getInt(COLUMN_ID));
+				if (kUser != null && kUser.getId() != user.getId()) {
+					System.out.println("k: " + kUser.getId() + ", " + user.getId());
+					// Marquer comme cas contact et sauvegarder
+					kUser.setContact(true);
+					if (this.save(kUser)) {
+						// Envoi de la notification à l'utilisateur
+						TableLocator.getNotificationTable().sendNotificationTo(kUser, "Vous avez été en contact avec une personne infecté, ces 10 derniers jours. Faites vous tester le plus vite possible !");
+					}
+				}
+			}
+			done = true;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			done = false;
+		}
+		
+		// Si tout ce passe bien, on marque l'utilisateur infecté comme infecté et on sauvegarde
+		if (done) {
+			user.setInfected(done);
+			try {
+				this.save(user);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				done = false;
+			}
+		}
+		System.out.println(done);
+		return done;
 	}
 }

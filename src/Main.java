@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Date;
 import java.util.List;
 
@@ -22,6 +23,21 @@ public class Main {
 		testLocation();
 		testActivity();
 		testNotification();
+		
+		String sql = "SELECT * FROM " + UserTable.TABLE_NAME
+				+ " WHERE " + UserTable.TABLE_NAME + "." + UserTable.COLUMN_ID + " IN ("
+				+ "    SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER
+				+ "    FROM " + ActivityTable.TABLE_NAME
+				+ "    WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + "> CURRENT_TIMESTAMP() - INTERVAL 10 DAY"
+				+ "      AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID + " IN ("
+				+ "        SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID
+				+ "        FROM " + ActivityTable.TABLE_NAME
+				+ "        WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION + " IN ("
+				+ "                SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION
+				+ "                FROM " + ActivityTable.TABLE_NAME
+				+ "                WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " = 5"
+				+ "                  AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " > CURRENT_TIMESTAMP() - INTERVAL 10 DAY)));";
+		System.out.println(sql);
 	}
 	
 	private static void testUser() {
@@ -65,8 +81,8 @@ public class Main {
 		Activity activity = new Activity();
 		try {
 			activity.setTitle("Chose intéressante");
-			activity.setStartDate(new Date(0));
-			activity.setEndDate(new Date(0));
+			activity.setStartDate(new Timestamp(0));
+			activity.setEndDate(new Timestamp(0));
 			activity.setLocation(locationTable.getByID(1));
 			activity.setUser(userTable.getByID(1));
 			activityTable.save(activity);
