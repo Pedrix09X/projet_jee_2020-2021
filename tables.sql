@@ -24,11 +24,10 @@ CREATE TABLE Location (
 CREATE TABLE Activity (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     title TEXT(100) NOT NULL,
-    startDate DATE NOT NULL DEFAULT NOW(),
-    endDate DATE NOT NULL DEFAULT NOW(),
+    startDate TIMESTAMP NOT NULL DEFAULT current_timestamp(),
+    endDate TIMESTAMP NOT NULL DEFAULT current_timestamp(),
     location INT NOT NULL,
     user INT NOT NULL,
-    CHECK (startDate <= endDate),
     FOREIGN KEY (location) REFERENCES Location(id),
     FOREIGN KEY (user) REFERENCES User(id)
 );
@@ -44,7 +43,7 @@ CREATE TABLE Friends (
 CREATE TABLE Notification (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     text TEXT(255) NOT NULL DEFAULT 'Pas de texte',
-    receivedDate DATE NOT NULL DEFAULT NOW(),
+    receivedDate DATE NOT NULL DEFAULT current_timestamp(),
     user INT NOT NULL,
     FOREIGN KEY (user) REFERENCES User(id)
 )
