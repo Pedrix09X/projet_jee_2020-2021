@@ -47,3 +47,25 @@ CREATE TABLE Notification (
     user INT NOT NULL,
     FOREIGN KEY (user) REFERENCES User(id)
 )
+
+
+
+SELECT * FROM user
+WHERE user.id IN (
+    SELECT activity.user
+    FROM activity
+    WHERE activity.id IN (
+        SELECT activity.id
+        FROM activity
+        WHERE activity.location IN (
+            SELECT location.id
+            FROM location
+            WHERE location.id IN (
+                SELECT activity.location
+                FROM activity
+                WHERE activity.user = 5
+                  AND activity.startDate > CURRENT_TIMESTAMP() - INTERVAL 10 DAY
+            )
+        )
+    )
+);
