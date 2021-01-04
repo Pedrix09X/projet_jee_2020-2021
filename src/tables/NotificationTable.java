@@ -3,10 +3,12 @@ package tables;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import entities.Entity;
 import entities.Notification;
+import entities.User;
 import exception.EntityException;
 import sql.DBConnector;
 
@@ -107,10 +109,9 @@ public class NotificationTable implements Table {
 	private boolean insert(Notification e) {
 		String sql = "INSERT " + TABLE_NAME + "( "
 				+ COLUMN_TEXT + ", "
-				+ COLUMN_RECEIVEDDATE + ", "
 				+ COLUMN_USER + ") "
-				+ "VALUES(?,?,?)";
-		Object[] params = {e.getText(), e.getReceivedDate(), e.getUser().getId()};
+				+ "VALUES(?,?)";
+		Object[] params = {e.getText(), e.getUser().getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);
@@ -118,5 +119,26 @@ public class NotificationTable implements Table {
 			e1.printStackTrace();
 		}
 		return id != -1;
+	}
+	
+	/**
+	 * Enregistre une notification dans la BDD pour l'utilisateur.
+	 * @param user Utilisateur à qui envoyer la notification
+	 * @param text Contenu de la notification
+	 * @return true si l'opération reussi.
+	 */
+	public boolean sendNotificationTo(User user, String text) {
+		Notification notif = new Notification();
+		boolean done = true;
+		try {
+			notif.setText(text);
+			notif.setUser(user);
+			done = this.save(notif);
+		} catch (Exception e) {
+			e.printStackTrace();
+			done = false;
+		}
+		
+		return done;
 	}
 }

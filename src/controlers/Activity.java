@@ -152,6 +152,8 @@ public class Activity extends HttpServlet {
 				return;
 			}
 			
+			TableLocator.getNotificationTable().sendNotificationTo(user, "Vous avez ajouté l'activité \"" + activity.getTitle() + "\" à votre liste d'activité.");
+			
 			session.setAttribute("success", "Activité ajouté avec succès.");
 			response.sendRedirect("activity?s=list");
 		} catch (Exception e) {

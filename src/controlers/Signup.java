@@ -106,6 +106,7 @@ public class Signup extends HttpServlet {
 					user.setBirthDate(dob);
 
 					userTable.save(user);
+					TableLocator.getNotificationTable().sendNotificationTo(user, "Bravo ! Votre inscription est terminé. Vous faite maintenant partie de la famille !");
 					session.setAttribute("user", user);
 					session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
 					response.sendRedirect(request.getContextPath());
