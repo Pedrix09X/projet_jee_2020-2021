@@ -1,6 +1,8 @@
 package controlers;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,12 +45,31 @@ public class Covided extends HttpServlet {
 			return;
 		}
 		
-		if (TableLocator.getUserTable().markUserAsInfected(user)) {
-			session.setAttribute("success", "Vous avez été marqué comme infecté. Tous les utilisateurs concerné seront marqués comme \"cas contact\" et vont être notifiés.");
-			response.sendRedirect(request.getContextPath());
+		String undo = request.getParameter("undo");
+		if (undo != null && undo.equals("1")) {								// Si l'utilisateur n'est plus infecté
+			user.setInfected(false);
+			boolean done = false;
+			try {
+				done = TableLocator.getUserTable().save(user);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				done = false;
+			}
+			if (done) {
+				session.setAttribute("success", "Félicitation pour votre rétablissement! Nous sommes content de savoir que vous allez mieux.");
+				response.sendRedirect(request.getContextPath());
+			} else {
+				session.setAttribute("error", "Une erreur s'est produite et le changement n'a pas été enregistré.");
+				response.sendRedirect(request.getContextPath());
+			}
 		} else {
-			session.setAttribute("error", "Une erreur s'est produite et vous n'avez pas été marqué comme infecté. Veuillez réessayer ultérieurement.");
-			response.sendRedirect(request.getContextPath());
+			if (TableLocator.getUserTable().markUserAsInfected(user)) {		// Si l'utilisateur est infecté
+				session.setAttribute("success", "Vous avez été marqué comme infecté. Tous les utilisateurs concerné seront marqués comme \"cas contact\" et vont être notifiés.");
+				response.sendRedirect(request.getContextPath());
+			} else {
+				session.setAttribute("error", "Une erreur s'est produite et vous n'avez pas été marqué comme infecté. Veuillez réessayer ultérieurement.");
+				response.sendRedirect(request.getContextPath());
+			}
 		}
 		
 	}
