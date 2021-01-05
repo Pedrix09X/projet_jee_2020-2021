@@ -11,21 +11,23 @@
 	List<Activity> activities = (List<Activity>) request.getAttribute("list");
 if (activities.size() > 0) {
 %>
-<div class="p-4 d-flex flex-column bd-highlight sm-3">
+<div class="p-4 d-flex flex-column bd-highlight lg-3 bg-secondary bg-gradient text-white rounded-3">
+	<div class="list-group">
 	<%
 		for (Activity activity : activities) {
 	%>
-	<div
-		class="d-flex justify-content-lg-evenly shadow p-3 mb-4 bg-secondary bg-gradient text-white rounded-3">
-		<div class="p-2"><%=activity.getTitle()%>: </div>
-		<div class="p-2 flex-lg-fill"><%=activity.getLocation().getAddress()%></div>
-		<div class="p-2"><%=Utils.dateToString(activity.getStartDate())%></div>
-		<div class="p-2"> - </div>
-		<div class="p-2"><%=Utils.dateToString(activity.getEndDate())%></div>
-	</div>
+		<a href="activity?s=show&id=<%=activity.getId() %>" class="list-group-item list-group-item-action">
+		    <div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1"></h5>
+				<small class="text-muted"><%=Utils.dateToString(activity.getStartDate())%> - <%=Utils.dateToString(activity.getEndDate())%></small>
+		    </div>
+		    <p class="mb-1"><Strong><%=activity.getTitle()%></Strong> <br> <%=activity.getLocation().getAddress()%></p>
+			<small class="text-muted"><%=activity.getLocation().getGPS()%></small>
+		</a>
 	<%
 		}
 	%>
+	</div>
 </div>
 <%
 	} else {

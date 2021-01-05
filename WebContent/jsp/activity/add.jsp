@@ -11,31 +11,33 @@
 </div>
 
 <form method="post" action="activity">
-	<div class="form-group row mb-2">
-		<label class="col-lg-4 col-form-label" for="login">Titre</label>
-		<div class="col-lg-8">
-			<input id="activityName" name="activityName" type="text" required="required"
-				class="form-control">
+	<div class="bg-secondary bg-gradient text-white p-4 rounded-3 mb-2">
+		<div class="form-group row mb-2">
+			<label class="col-lg-4 col-form-label" for="login">Titre</label>
+			<div class="col-lg-8">
+				<input id="activityName" name="activityName" type="text" required="required"
+					class="form-control">
+			</div>
 		</div>
-	</div>
-	<div class="form-group row mb-2">
-		<label for="start" class="col-lg-4 col-form-label">Début de
-			l'activité</label>
-		<div class="col-lg-8">
-			<input id="start" name="start" type="datetime-local" required="required" class="form-control">
+		<div class="form-group row mb-2">
+			<label for="start" class="col-lg-4 col-form-label">Début de
+				l'activité</label>
+			<div class="col-lg-8">
+				<input id="start" name="start" type="datetime-local" required="required" class="form-control">
+			</div>
 		</div>
-	</div>
-	<div class="form-group row mb-2">
-		<label for="end" class="col-lg-4 col-form-label">Fin de
-			l'activité</label>
-		<div class="col-lg-8">
-			<input id="end" name="end" type="datetime-local" required="required"
-				class="form-control">
+		<div class="form-group row">
+			<label for="end" class="col-lg-4 col-form-label">Fin de
+				l'activité</label>
+			<div class="col-lg-8">
+				<input id="end" name="end" type="datetime-local" required="required"
+					class="form-control">
+			</div>
 		</div>
 	</div>
 	
 	<div class="d-lg-flex flex-row justify-content-evenly form-group mb-2">
-		<div class="p-4 col-lg-5 border rounded-3 mb-2">
+		<div class="p-4 col-lg-5 border bg-secondary bg-gradient text-white rounded-3 mb-2">
 			<div class="text-center mb-4">
 				<input class="form-check-input" type="radio" name="radioLoc" id="selectRadio" checked>
 				<label class="form-check-label" for="selectRadio">
@@ -54,7 +56,7 @@
 			</select>
 		</div>
 		
-		<div class="p-4 col-lg-5 border rounded-3 mb-2">
+		<div class="p-4 col-lg-5 border bg-secondary bg-gradient text-white rounded-3 mb-2">
 			<div class="text-center mb-4">
 				<input class="form-check-input" type="radio" name="radioLoc" id="createRadio">
 				<label class="form-check-label" for="createRadio">
@@ -82,7 +84,7 @@
 				</div>
 				<div class="form-group row mb-2">
 					<div class="offset-2">
-						<button id="locSubmit" name="locSubmit" type="button" class="btn btn-outline-primary col-lg-8 btn-sm"  disabled>Créer le lieu</button>
+						<button id="locSubmit" name="locSubmit" type="button" class="btn btn-outline-light col-lg-8 btn-sm"  disabled>Créer le lieu</button>
 					</div>
 				</div>
 			</div>

@@ -35,9 +35,16 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("title", TITLE);
-		request.setAttribute("page", PAGE_NAME);
-		request.getRequestDispatcher("jsp/default.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		if (user == null) {
+			request.setAttribute("title", TITLE);
+			request.setAttribute("page", PAGE_NAME);
+			request.getRequestDispatcher("jsp/default.jsp").forward(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath());
+		}
 	}
 
 	/**
@@ -46,19 +53,25 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserTable userTable = TableLocator.getUserTable();
 		HttpSession session = request.getSession();
-		try {
-			User user = userTable.login(request.getParameter("login"), Utils.hashPassword(request.getParameter("pass")));
-			if (user == null) {
-				session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");
+		User user = (User) session.getAttribute("user");
+		
+		if (user == null) {
+			try {
+				user = userTable.login(request.getParameter("login"), Utils.hashPassword(request.getParameter("pass")));
+				if (user == null) {
+					session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");
+					doGet(request, response);
+				} else {
+					session.setAttribute("user", user);
+					session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
+					response.sendRedirect(request.getContextPath());
+				}
+			} catch (Exception e) {
+				session.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
 				doGet(request, response);
-			} else {
-				session.setAttribute("user", user);
-				session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
-				response.sendRedirect(request.getContextPath());
 			}
-		} catch (Exception e) {
-			session.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
-			doGet(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath());
 		}
 	}
 
