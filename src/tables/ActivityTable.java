@@ -37,12 +37,12 @@ public class ActivityTable implements Table {
 			rs.next();
 			activity = new Activity();
 			try {
-				activity.setId(rs.getInt(1));
-				activity.setTitle(rs.getString(2));
-				activity.setStartDate(rs.getTimestamp(3));
-				activity.setEndDate(rs.getTimestamp(4));
-				activity.setLocation(locationTable.getByID(rs.getInt(5)));
-				activity.setUser(userTable.getByID(rs.getInt(6)));
+				activity.setId(rs.getInt(COLUMN_ID));
+				activity.setTitle(rs.getString(COLUMN_TITLE));
+				activity.setStartDate(rs.getTimestamp(COLUMN_STARTDATE));
+				activity.setEndDate(rs.getTimestamp(COLUMN_ENDDATE));
+				activity.setLocation(locationTable.getByID(rs.getInt(COLUMN_LOCATION)));
+				activity.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 			} catch (EntityException e) {
 				e.printStackTrace();
 			}
@@ -63,12 +63,12 @@ public class ActivityTable implements Table {
 			while (rs.next()) {
 				activity = new Activity();
 				try {
-					activity.setId(rs.getInt(1));
-					activity.setTitle(rs.getString(2));
-					activity.setStartDate(rs.getTimestamp(3));
-					activity.setEndDate(rs.getTimestamp(4));
-					activity.setLocation(locationTable.getByID(rs.getInt(5)));
-					activity.setUser(userTable.getByID(rs.getInt(6)));
+					activity.setId(rs.getInt(COLUMN_ID));
+					activity.setTitle(rs.getString(COLUMN_TITLE));
+					activity.setStartDate(rs.getTimestamp(COLUMN_STARTDATE));
+					activity.setEndDate(rs.getTimestamp(COLUMN_ENDDATE));
+					activity.setLocation(locationTable.getByID(rs.getInt(COLUMN_LOCATION)));
+					activity.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 					activities.add(activity);
 				} catch (EntityException e) {
 					e.printStackTrace();

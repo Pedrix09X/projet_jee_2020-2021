@@ -39,15 +39,15 @@ public class UserTable implements Table {
 			rs.next();
 			user = new User();
 			try {
-				user.setId(rs.getInt(1));
-				user.setLogin(rs.getString(2));
-				user.setPassword(rs.getString(3));
-				user.setFirstName(rs.getString(4));
-				user.setLastName(rs.getString(5));
-				user.setBirthDate(rs.getDate(6));
-				user.setInfected(rs.getBoolean(7));
-				user.setContact(rs.getBoolean(8));
-				user.setAdmin(rs.getBoolean(9));
+				user.setId(rs.getInt(COLUMN_ID));
+				user.setLogin(rs.getString(COLUMN_LOGIN));
+				user.setPassword(rs.getString(COLUMN_PASSWORD));
+				user.setFirstName(rs.getString(COLUMN_FIRSTNAME));
+				user.setLastName(rs.getString(COLUMN_LASTNAME));
+				user.setBirthDate(rs.getDate(COLUMN_BIRTHDATE));
+				user.setInfected(rs.getBoolean(COLUMN_INFECTED));
+				user.setContact(rs.getBoolean(COLUMN_CONTACT));
+				user.setAdmin(rs.getBoolean(COLUMN_ADMIN));
 			} catch (EntityException e) {
 				e.printStackTrace();
 			}
@@ -66,15 +66,15 @@ public class UserTable implements Table {
 			while (rs.next()) {
 				user = new User();
 				try {
-					user.setId(rs.getInt(1));
-					user.setLogin(rs.getString(2));
-					user.setPassword(rs.getString(3));
-					user.setFirstName(rs.getString(4));
-					user.setLastName(rs.getString(5));
-					user.setBirthDate(rs.getDate(6));
-					user.setInfected(rs.getBoolean(7));
-					user.setContact(rs.getBoolean(8));
-					user.setAdmin(rs.getBoolean(9));
+					user.setId(rs.getInt(COLUMN_ID));
+					user.setLogin(rs.getString(COLUMN_LOGIN));
+					user.setPassword(rs.getString(COLUMN_PASSWORD));
+					user.setFirstName(rs.getString(COLUMN_FIRSTNAME));
+					user.setLastName(rs.getString(COLUMN_LASTNAME));
+					user.setBirthDate(rs.getDate(COLUMN_BIRTHDATE));
+					user.setInfected(rs.getBoolean(COLUMN_ID));
+					user.setContact(rs.getBoolean(COLUMN_CONTACT));
+					user.setAdmin(rs.getBoolean(COLUMN_ADMIN));
 					users.add(user);
 				} catch (EntityException e) {
 					e.printStackTrace();
@@ -189,7 +189,7 @@ public class UserTable implements Table {
 		try {
 			if (res != null) {
 				while (res.next() && unique) {
-					if (login.equals(res.getString(2))) {
+					if (login.equals(res.getString(COLUMN_LOGIN))) {
 						unique = false;
 					}
 				}

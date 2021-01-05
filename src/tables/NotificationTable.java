@@ -43,10 +43,10 @@ public class NotificationTable implements Table {
 			rs.next();
 			notification = new Notification();
 			try {
-				notification.setId(rs.getInt(1));
-				notification.setText(rs.getString(2));
-				notification.setReceivedDate(rs.getDate(3));
-				notification.setUser(userTable.getByID(rs.getInt(4)));
+				notification.setId(rs.getInt(COLUMN_ID));
+				notification.setText(rs.getString(COLUMN_TEXT));
+				notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+				notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 			} catch (EntityException e) {
 				e.printStackTrace();
 			}
@@ -66,10 +66,10 @@ public class NotificationTable implements Table {
 			while (rs.next()) {
 				notification = new Notification();
 				try {
-					notification.setId(rs.getInt(1));
-					notification.setText(rs.getString(2));
-					notification.setReceivedDate(rs.getDate(3));
-					notification.setUser(userTable.getByID(rs.getInt(4)));
+					notification.setId(rs.getInt(COLUMN_ID));
+					notification.setText(rs.getString(COLUMN_TEXT));
+					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 					notifications.add(notification);
 				} catch (EntityException e) {
 					e.printStackTrace();
@@ -91,10 +91,10 @@ public class NotificationTable implements Table {
 			while (rs.next()) {
 				notification = new Notification();
 				try {
-					notification.setId(rs.getInt(1));
-					notification.setText(rs.getString(2));
-					notification.setReceivedDate(rs.getDate(3));
-					notification.setUser(userTable.getByID(rs.getInt(4)));
+					notification.setId(rs.getInt(COLUMN_ID));
+					notification.setText(rs.getString(COLUMN_TEXT));
+					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 					notifications.add(notification);
 				} catch (EntityException e) {
 					e.printStackTrace();

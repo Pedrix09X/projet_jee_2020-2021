@@ -32,10 +32,10 @@ public class LocationTable implements Table {
 			rs.next();
 			location = new Location();
 			try {
-				location.setId(rs.getInt(1));
-				location.setName(rs.getString(2));
-				location.setAddress(rs.getString(3));
-				location.setGPS(rs.getString(4));
+				location.setId(rs.getInt(COLUMN_ID));
+				location.setName(rs.getString(COLUMN_NAME));
+				location.setAddress(rs.getString(COLUMN_ADDRESS));
+				location.setGPS(rs.getString(COLUMN_GPS));
 			} catch (EntityException e) {
 				e.printStackTrace();
 			}
@@ -54,10 +54,10 @@ public class LocationTable implements Table {
 			while (rs.next()) {
 				location = new Location();
 				try {
-					location.setId(rs.getInt(1));
-					location.setName(rs.getString(2));
-					location.setAddress(rs.getString(3));
-					location.setGPS(rs.getString(4));
+					location.setId(rs.getInt(COLUMN_ID));
+					location.setName(rs.getString(COLUMN_NAME));
+					location.setAddress(rs.getString(COLUMN_ADDRESS));
+					location.setGPS(rs.getString(COLUMN_GPS));
 					locations.add(location);
 				} catch (EntityException e) {
 					e.printStackTrace();
