@@ -80,6 +80,31 @@ public class NotificationTable implements Table {
 		return notifications;
 	}
 
+	public List<Notification> getByUser(User user) throws SQLException {
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=?";
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
+		
+		ArrayList<Notification> notifications = new ArrayList<Notification>();
+		Notification notification = null;
+		UserTable userTable = new UserTable();
+		if (rs != null) {
+			while (rs.next()) {
+				notification = new Notification();
+				try {
+					notification.setId(rs.getInt(1));
+					notification.setText(rs.getString(2));
+					notification.setReceivedDate(rs.getDate(3));
+					notification.setUser(userTable.getByID(rs.getInt(4)));
+					notifications.add(notification);
+				} catch (EntityException e) {
+					e.printStackTrace();
+				}
+			}
+			rs.close();
+		}
+		return notifications;
+	}
+
 	@Override
 	public boolean save(Entity e) throws SQLException {
 		if (e.getClass().equals(Notification.class)) {
@@ -120,11 +145,13 @@ public class NotificationTable implements Table {
 	private boolean insert(Notification e) {
 		String sql = "INSERT " + TABLE_NAME + "( "
 				+ COLUMN_TEXT + ", "
+				+ COLUMN_RECEIVEDDATE + ", "
+				+ COLUMN_SEEN + ", "
 				+ COLUMN_TYPE + ", "
 				+ COLUMN_ACTION + ", "
 				+ COLUMN_USER + ") "
-				+ "VALUES(?,?,?,?)";
-		Object[] params = {e.getText(), e.getType(), e.getAction(), e.getUser().getId()};
+				+ "VALUES(?,?,?,?,?,?)";
+		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);
