@@ -13,14 +13,22 @@ import exception.EntityException;
 import sql.DBConnector;
 
 public class NotificationTable implements Table {
-
+	
 	//--- Variables statiques décrivant la table Notification ---//
 	public static final int NOT_SAVED = -1;
 	public static final String TABLE_NAME 			= "Notification";
 	public static final String COLUMN_ID 			= "id";
 	public static final String COLUMN_TEXT 			= "text";
 	public static final String COLUMN_RECEIVEDDATE 	= "receivedDate";
+	public static final String COLUMN_SEEN			= "seen";
+	public static final String COLUMN_TYPE			= "type";
+	public static final String COLUMN_ACTION		= "action";
 	public static final String COLUMN_USER 			= "user";
+	
+	//--- Variables statiques décrivant le type de notification ---//
+	public static final int DEFAULT 	= 0;
+	public static final int ASK_FRIEND 	= 1;
+	public static final int CONTACT 	= 3;
 	
 	protected NotificationTable() {}
 	
@@ -94,9 +102,12 @@ public class NotificationTable implements Table {
 		String sql = "UPDATE " + TABLE_NAME + " SET "
 				+ COLUMN_TEXT + "=? "
 				+ COLUMN_RECEIVEDDATE + "=? "
+				+ COLUMN_SEEN + "=? "
+				+ COLUMN_TYPE + "=? "
+				+ COLUMN_ACTION + "=? "
 				+ COLUMN_USER + "=? "
 				+ "WHERE " + COLUMN_ID + "=?";
-		Object[] params = {e.getText(), e.getReceivedDate(), e.getUser().getId(), e.getId()};
+		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		return id != -1;
 	}
@@ -109,9 +120,11 @@ public class NotificationTable implements Table {
 	private boolean insert(Notification e) {
 		String sql = "INSERT " + TABLE_NAME + "( "
 				+ COLUMN_TEXT + ", "
+				+ COLUMN_TYPE + ", "
+				+ COLUMN_ACTION + ", "
 				+ COLUMN_USER + ") "
-				+ "VALUES(?,?)";
-		Object[] params = {e.getText(), e.getUser().getId()};
+				+ "VALUES(?,?,?,?)";
+		Object[] params = {e.getText(), e.getType(), e.getAction(), e.getUser().getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);
@@ -128,11 +141,24 @@ public class NotificationTable implements Table {
 	 * @return true si l'opération reussi.
 	 */
 	public boolean sendNotificationTo(User user, String text) {
+		return sendNotificationTo(user, text, DEFAULT, "");
+	}
+	
+	/**
+	 * Enregistre une notification dans la BDD pour l'utilisateur.
+	 * @param user Utilisateur à qui envoyer la notification
+	 * @param text Contenu de la notification
+	 * @param type Spécifie le type de notification parmi Type.Default, Type.Contact, Type.Ask_Friend
+	 * @return true si l'opération reussi.
+	 */
+	public boolean sendNotificationTo(User user, String text, int type, String act) {
 		Notification notif = new Notification();
 		boolean done = true;
 		try {
 			notif.setText(text);
 			notif.setUser(user);
+			notif.setType(type);
+			notif.setAction(act);
 			done = this.save(notif);
 		} catch (Exception e) {
 			e.printStackTrace();

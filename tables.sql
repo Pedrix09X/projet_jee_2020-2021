@@ -44,6 +44,9 @@ CREATE TABLE Notification (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     text TEXT(255) NOT NULL DEFAULT 'Pas de texte',
     receivedDate DATE NOT NULL DEFAULT current_timestamp(),
+    seen BOOLEAN NOT NULL DEFAULT 0,
+    type SMALLINT NOT NULL DEFAULT 0,
+    action TEXT(200) NOT NULL DEFAULT '',
     user INT NOT NULL,
     FOREIGN KEY (user) REFERENCES User(id)
 )

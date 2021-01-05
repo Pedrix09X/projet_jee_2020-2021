@@ -9,6 +9,9 @@ public class Notification implements Entity {
 	private int id;
 	private String text;
 	private Date receivedDate;
+	private boolean seen;
+	private int type;
+	private String action;
 	private User user;
 
 	
@@ -16,6 +19,9 @@ public class Notification implements Entity {
 		this.id = -1;
 		this.text = "";
 		this.receivedDate = new Date(0);
+		this.seen = false;
+		this.type = 0;
+		this.action = "";
 		this.user = null;
 	}
 
@@ -65,6 +71,36 @@ public class Notification implements Entity {
 	public void setReceivedDate(Date receivedDate) {
 		this.receivedDate = receivedDate;
 	}
+
+	public boolean isSeen() {
+		return seen;
+	}
+
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
+
+
+	public int getType() {
+		return type;
+	}
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+
+	public String getAction() {
+		return action;
+	}
+
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 
 	public User getUser() {
 		return user;

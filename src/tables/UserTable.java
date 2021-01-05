@@ -229,12 +229,13 @@ public class UserTable implements Table {
 				// Récupération de l'utilisateur par l'ID
 				kUser = this.getByID(rs.getInt(COLUMN_ID));
 				if (kUser != null && kUser.getId() != user.getId()) {
-					System.out.println("k: " + kUser.getId() + ", " + user.getId());
 					// Marquer comme cas contact et sauvegarder
 					kUser.setContact(true);
 					if (this.save(kUser)) {
 						// Envoi de la notification à l'utilisateur
-						TableLocator.getNotificationTable().sendNotificationTo(kUser, "Vous avez été en contact avec une personne infecté, ces 10 derniers jours. Faites vous tester le plus vite possible !");
+						TableLocator.getNotificationTable().sendNotificationTo(kUser, 
+								"Vous avez été en contact avec une personne infecté, ces 10 derniers jours. Faites vous tester le plus vite possible !", 
+								NotificationTable.CONTACT, "");
 					}
 				}
 			}
@@ -254,7 +255,6 @@ public class UserTable implements Table {
 				done = false;
 			}
 		}
-		System.out.println(done);
 		return done;
 	}
 }
