@@ -24,11 +24,12 @@ public class NotificationTable implements Table {
 	public static final String COLUMN_TYPE			= "type";
 	public static final String COLUMN_ACTION		= "action";
 	public static final String COLUMN_USER 			= "user";
+	public static final String COLUMN_FRIEND		= "friend";
 	
 	//--- Variables statiques décrivant le type de notification ---//
 	public static final int DEFAULT 	= 0;
 	public static final int ASK_FRIEND 	= 1;
-	public static final int CONTACT 	= 3;
+	public static final int CONTACT 	= 2;
 	
 	protected NotificationTable() {}
 	
@@ -47,6 +48,7 @@ public class NotificationTable implements Table {
 				notification.setText(rs.getString(COLUMN_TEXT));
 				notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
 				notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
+				notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 			} catch (EntityException e) {
 				e.printStackTrace();
 			}
@@ -70,6 +72,7 @@ public class NotificationTable implements Table {
 					notification.setText(rs.getString(COLUMN_TEXT));
 					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
 					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
+					notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 					notifications.add(notification);
 				} catch (EntityException e) {
 					e.printStackTrace();
@@ -95,6 +98,7 @@ public class NotificationTable implements Table {
 					notification.setText(rs.getString(COLUMN_TEXT));
 					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
 					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
+					notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 					notifications.add(notification);
 				} catch (EntityException e) {
 					e.printStackTrace();
@@ -103,6 +107,28 @@ public class NotificationTable implements Table {
 			rs.close();
 		}
 		return notifications;
+	}
+	
+	/**
+	 * Retourne le nombre de notifications non lu par l'utilisateur
+	 * @param user utilisateur dont le notification sont à compter
+	 * @return le nombre de notification non lu
+	 */
+	public int getCount(User user) {
+		String sql = "SELECT count(id) FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=? AND " + COLUMN_SEEN + "=false";
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
+		
+		int count = 0;
+		try {
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			count = 0;
+		}
+		
+		return count;
 	}
 
 	@Override
@@ -131,6 +157,7 @@ public class NotificationTable implements Table {
 				+ COLUMN_TYPE + "=? "
 				+ COLUMN_ACTION + "=? "
 				+ COLUMN_USER + "=? "
+				+ COLUMN_FRIEND + "=? "
 				+ "WHERE " + COLUMN_ID + "=?";
 		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
@@ -149,7 +176,8 @@ public class NotificationTable implements Table {
 				+ COLUMN_SEEN + ", "
 				+ COLUMN_TYPE + ", "
 				+ COLUMN_ACTION + ", "
-				+ COLUMN_USER + ") "
+				+ COLUMN_USER + ", "
+				+ COLUMN_FRIEND + ") "
 				+ "VALUES(?,?,?,?,?,?)";
 		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);

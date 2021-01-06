@@ -19,7 +19,7 @@ if (activities.size() > 0) {
 		<a href="activity?s=show&id=<%=activity.getId() %>" class="list-group-item list-group-item-action">
 		    <div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1"></h5>
-				<small class="text-muted"><%=Utils.dateToString(activity.getStartDate())%> - <%=Utils.dateToString(activity.getEndDate())%></small>
+				<small class="text-muted"><%=Utils.timestampToString(activity.getStartDate())%> - <%=Utils.timestampToString(activity.getEndDate())%></small>
 		    </div>
 		    <p class="mb-1"><Strong><%=activity.getTitle()%></Strong> <br> <%=activity.getLocation().getAddress()%></p>
 			<small class="text-muted"><%=activity.getLocation().getGPS()%></small>

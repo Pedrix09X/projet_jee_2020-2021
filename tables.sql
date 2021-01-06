@@ -48,7 +48,9 @@ CREATE TABLE Notification (
     type SMALLINT NOT NULL DEFAULT 0,
     action TEXT(200) NOT NULL DEFAULT '',
     user INT NOT NULL,
-    FOREIGN KEY (user) REFERENCES User(id)
+    friend INT NULL,
+    FOREIGN KEY (user) REFERENCES User(id),
+    FOREIGN KEY (friend) REFERENCES User(id)
 )
 
 

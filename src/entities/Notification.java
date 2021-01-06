@@ -3,6 +3,7 @@ package entities;
 import java.sql.Date;
 
 import exception.EntityException;
+import tables.NotificationTable;
 
 public class Notification implements Entity {
 
@@ -13,6 +14,7 @@ public class Notification implements Entity {
 	private int type;
 	private String action;
 	private User user;
+	private User friend;
 
 	
 	public Notification() {
@@ -23,6 +25,7 @@ public class Notification implements Entity {
 		this.type = 0;
 		this.action = "";
 		this.user = null;
+		this.friend = null;
 	}
 
 
@@ -113,6 +116,24 @@ public class Notification implements Entity {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public User getFriend() {
+		return friend;
+	}
+
+
+	/**
+	 * Joint à la notification, l'utilisateur qui fait la demande d'ami. Si l'utilisateur n'est pas null,
+	 * cela changera automatiquement le type de notification à NotificationTable.ASK_FRIEND
+	 * @param friend 
+	 */
+	public void setFriend(User friend) {
+		this.friend = friend;
+		if (friend != null) {
+			this.setType(NotificationTable.ASK_FRIEND);
+		}
+	}
+
 
 	@Override
 	public String toString() {

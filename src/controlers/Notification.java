@@ -21,6 +21,8 @@ import tables.TableLocator;
 @WebServlet("/Notification")
 public class Notification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    private static final String TITLE = "Notifications";
+    private static final String PAGE_NAME = "notification/list.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,7 +50,13 @@ public class Notification extends HttpServlet {
 			notifs = TableLocator.getNotificationTable().getByUser(user);
 		} catch (SQLException e) {
 			session.setAttribute("error", "Une erreur s'est produite lors de la récupération de vos notifications.");
+			notifs = null;
 		}
+		
+		request.setAttribute("list", notifs);
+		request.setAttribute("title", TITLE);
+		request.setAttribute("page", PAGE_NAME);
+		request.getRequestDispatcher("jsp/default.jsp").forward(request, response);
 	}
 
 	/**

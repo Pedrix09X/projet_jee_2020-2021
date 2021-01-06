@@ -1,3 +1,4 @@
+<%@page import="tables.TableLocator"%>
 <%@ page import="entities.User"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -35,6 +36,7 @@
 	<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
 		<%if (user != null) {%>
 			<li class="nav-item p-2"><a class="nav-link" href="#">Bonjour, <%= user.getLogin() %> !</a></li>
+			<li class="nav-item p-2"><a class="nav-link" href="notif">Notifications <span class="badge bg-danger"><%=TableLocator.getNotificationTable().getCount(user) %></span></a></li>
 			<li class="nav-item p-2"><a class="nav-link" href="signout">Se déconnecter</a></li>
 		<%} else { %>
 			<li class="nav-item p-2"><a class="nav-link" href="login">Se connecter</a></li>

@@ -1,5 +1,6 @@
 package sql;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,8 +55,18 @@ public class Utils {
 	 * @param ts Timestamp représentant la date et l'heure
 	 * @return la date et l'heure au format "dd/MM/yyyy 'à' HH:mm"
 	 */
-	public static String dateToString(Timestamp ts) {
+	public static String timestampToString(Timestamp ts) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm");
 		return sdf.format(ts);
+	}
+	
+	/**
+	 * Génère une chaine de caractère représentant la date de l'instance Date
+	 * @param dt Date représentant la date
+	 * @return la date et l'heure au format "dd/MM/yyyy"
+	 */
+	public static String dateToString(Date dt) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(dt);
 	}
 }

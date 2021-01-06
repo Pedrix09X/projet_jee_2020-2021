@@ -80,6 +80,16 @@
 		<url-pattern>/covided</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>Notification</servlet-name>
+		<servlet-class>controlers.Notification</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Notification</servlet-name>
+		<url-pattern>/notif</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>filters.EncodingFilter</filter-class>
