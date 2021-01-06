@@ -26,6 +26,7 @@ CREATE TABLE Activity (
     title TEXT(100) NOT NULL,
     startDate TIMESTAMP NOT NULL DEFAULT current_timestamp(),
     endDate TIMESTAMP NOT NULL DEFAULT current_timestamp(),
+    CHECK (startDate <= endDate),
     location INT NOT NULL,
     user INT NOT NULL,
     FOREIGN KEY (location) REFERENCES Location(id),

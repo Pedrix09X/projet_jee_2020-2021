@@ -38,7 +38,12 @@ public class Utils {
 	 * @return La date et l'heure dans un objet Timestamp
 	 */
 	public static Timestamp getTimestampOf(String dateStr) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		SimpleDateFormat sdf;
+		if (dateStr.contains("T")) {
+			sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		} else {
+			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		}
 		Timestamp ts;
 		try {
 			ts = new Timestamp(sdf.parse(dateStr).getTime());
