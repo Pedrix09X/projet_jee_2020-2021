@@ -90,7 +90,7 @@ public class NotificationTable implements Table {
 	}
 
 	public List<Notification> getByUser(User user) throws SQLException {
-		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=?";
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USER + "=? ORDER BY " + COLUMN_SEEN + " ASC, " + COLUMN_RECEIVEDDATE + " DESC";
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
 		
 		ArrayList<Notification> notifications = new ArrayList<Notification>();
@@ -160,15 +160,18 @@ public class NotificationTable implements Table {
 	 */
 	private boolean update(Notification e) {
 		String sql = "UPDATE " + TABLE_NAME + " SET "
-				+ COLUMN_TEXT + "=? "
-				+ COLUMN_RECEIVEDDATE + "=? "
-				+ COLUMN_SEEN + "=? "
-				+ COLUMN_TYPE + "=? "
-				+ COLUMN_ACTION + "=? "
-				+ COLUMN_USER + "=? "
+				+ COLUMN_TEXT + "=?, "
+				+ COLUMN_RECEIVEDDATE + "=?, "
+				+ COLUMN_SEEN + "=?, "
+				+ COLUMN_TYPE + "=?, "
+				+ COLUMN_ACTION + "=?, "
+				+ COLUMN_USER + "=?, "
 				+ COLUMN_FRIEND + "=? "
 				+ "WHERE " + COLUMN_ID + "=?";
-		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getId()};
+		Object friendID = null;
+		if (e.getFriend() != null)
+			friendID = e.getFriend().getId();
+		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), friendID, e.getId()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		return id != -1;
 	}
@@ -188,7 +191,7 @@ public class NotificationTable implements Table {
 				+ COLUMN_USER + ", "
 				+ COLUMN_FRIEND + ") "
 				+ "VALUES(?,?,?,?,?,?)";
-		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId()};
+		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getFriend()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);
@@ -227,6 +230,26 @@ public class NotificationTable implements Table {
 		} catch (Exception e) {
 			e.printStackTrace();
 			done = false;
+		}
+		
+		return done;
+	}
+
+	/**
+	 * Marque la notification avec l'id id comme lu
+	 * @param id ID de la notification à marquer
+	 * @return true si tout se passe bien 
+	 */
+	public boolean markAsSeen(int id) {
+		boolean done = false;
+		try {
+			Notification notif = this.getByID(id);
+			if (notif != null) {
+				notif.setSeen(true);
+				done = this.save(notif);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return done;

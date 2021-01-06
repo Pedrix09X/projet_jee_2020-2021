@@ -63,7 +63,23 @@ public class Notification extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String s = request.getParameter("s");
+		if (s != null && s.equals("seen")) {
+			if (request.getParameter("r").equals("json")) {
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        
+		        String sId = request.getParameter("id");
+		        if (sId != null) {
+		        	boolean done = false;
+		        	int id = Integer.parseInt(sId);
+		        	done = TableLocator.getNotificationTable().markAsSeen(id);
+		        	response.getWriter().append(String.format("{\"result\":%s, \"id\":%d}", done, id));
+		        }
+			}
+		} else {
+			doGet(request, response);
+		}
 	}
 
 }

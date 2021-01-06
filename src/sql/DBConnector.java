@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 public class DBConnector {
 	
@@ -91,7 +92,9 @@ public class DBConnector {
 				for (int i = 0; i < params.length; i++) {
 					param = params[i];
 
-					if (param.getClass().equals(String.class)) {
+					if (param == null) {
+						stmt.setNull(i+1, Types.INTEGER);
+					} else if (param.getClass().equals(String.class)) {
 						stmt.setString(i+1, (String) param);
 					} else if (param.getClass().equals(Integer.class)) {
 						stmt.setInt(i+1, (int) param);

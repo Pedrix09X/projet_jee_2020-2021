@@ -44,7 +44,10 @@ if (notifs!=null && notifs.size() > 0) {
 			}
 		}
 	%>
-	<div class="p-4 mb-2 border rounded-3 bg-gradient <%=colorClass%> <%=colorText%>">
+	<div class="notif p-4 mb-2 border rounded-3 bg-gradient <%=colorClass%> <%=colorText%>">
+		<input type="hidden" class="notifID" value="<%=notif.getId()%>"/>
+		<input type="hidden" class="notifSeen" value="<%=notif.isSeen()%>"/>
+		<input type="hidden" class="notifType" value="<%=notif.getType()%>"/>
 		<div class="d-flex w-100 justify-content-between mb-2">
 			<h5 class="mb-1"><%=notif.getText()%></h5>
 			<small class="<%=colorText%>"><%=Utils.dateToString(notif.getReceivedDate())%></small>
@@ -65,24 +68,4 @@ if (notifs!=null && notifs.size() > 0) {
 	}
 %>
 
-
-<!-- 
-<div class="list-group">
-	<%
-		for (Notification notif : notifs) {
-	%>
-		<a href="<%=notif.getAction() %>" class="list-group-item list-group-item-action mb-2">
-		    <div class="d-flex w-100 justify-content-between">
-				<h5 class="mb-1"><%=notif.getText()%></h5>
-				<small class="text-muted"><%=Utils.dateToString(notif.getReceivedDate())%></small>
-		    </div>
-		    <% if (notif.getType() == NotificationTable.ASK_FRIEND) {%>
-		    	<button class="btn btn-outline-light col-lg-5 btn-sm">Accepter</button>
-		    	<button class="btn btn-outline-light col-lg-5 btn-sm">Refuser</button>
-		    <%} %>
-		</a>
-	<%
-		}
-	%>
-	</div> 
--->
+<script src="<%=request.getContextPath()%>/js/notification.js"></script>
