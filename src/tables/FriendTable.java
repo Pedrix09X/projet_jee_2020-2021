@@ -47,12 +47,16 @@ public class FriendTable {
 	 * @param user Utilisateur a qui l'ami doit être enregistré
 	 * @param friend Ami à ajouter
 	 */
-	public void addFriend(User user, User friend) {
+	public boolean addFriend(User user, User friend) {
+		boolean done = false;
 		if (user != null && friend != null) {
 			String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?,?)";
 			DBConnector.getInstance().insertQuery(sql, new Object[] {user.getId(), friend.getId()});
 			user.getFriends().add(friend);
+			done = true;
 		}
+		
+		return done;
 	}
 
 }

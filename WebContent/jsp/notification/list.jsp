@@ -9,11 +9,16 @@
 <%@include file="../elements/message.jsp"%>
 
 <%
-	List<Notification> notifs = (List<Notification>) request.getAttribute("list");
+List<Notification> notifs = (List<Notification>) request.getAttribute("list");
 if (notifs!=null && notifs.size() > 0) {
 %>
 <div class="d-flex flex-column bd-highlight lg-3">
 	<% for (Notification notif : notifs) { 
+		int friendID = 0;
+		if (notif.getFriend() != null) {
+			friendID = notif.getFriend().getId();
+		}
+		
 		String colorClass = "";
 		String colorText = "";
 		String buttons = "";
