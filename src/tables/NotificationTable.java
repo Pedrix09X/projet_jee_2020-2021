@@ -190,7 +190,7 @@ public class NotificationTable implements Table {
 				+ COLUMN_ACTION + ", "
 				+ COLUMN_USER + ", "
 				+ COLUMN_FRIEND + ") "
-				+ "VALUES(?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?)";
 		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getFriend()};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {

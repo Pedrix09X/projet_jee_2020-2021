@@ -46,6 +46,7 @@ function markAsSeen(notif, force) {
 function updateNotif(data, status) {
 	if (data.result) {
 		var notif = $(".notif :input[value=\"" + data.id + "\"]").parent()
+		var notifType = notif.find(".notifType").val()
 		var listClass = notif.attr("class")
 
 		if (listClass.includes("bg-danger")) {
@@ -60,6 +61,11 @@ function updateNotif(data, status) {
 		}
 
 		notif.find(".notifSeen").val("true")
+		
+		if (notifType == "1") {
+			notif.find(".btnAccept").remove()
+			notif.find(".btnRefuse").remove()
+		}
 	}
 }
 

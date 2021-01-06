@@ -44,9 +44,10 @@ public class Friend extends HttpServlet {
 			if (s != null && s.equals("add")) {
 				if (sId != null) {
 					int notifId = Integer.parseInt(sId);
+					User friend = null;
 					try {
 						Notification notif = TableLocator.getNotificationTable().getByID(notifId);
-						User friend = notif.getFriend();
+						friend = notif.getFriend();
 						if (friend != null) {
 							done = TableLocator.getFriendTable().addFriend(user, friend);
 						}
@@ -56,10 +57,13 @@ public class Friend extends HttpServlet {
 					}
 
 					if (r != null && r.equals("json")) {
-						response.setContentType("application/json");
-						response.setCharacterEncoding("UTF-8");
-						response.getWriter().append(String.format("{\"result\":%s, \"id\":%d}", done, notifId));
-						return;
+						if (done) {
+							TableLocator.getNotificationTable().sendNotificationTo(friend, user.getLogin() + " a accepté votre demande d'ami.");
+							response.setContentType("application/json");
+							response.setCharacterEncoding("UTF-8");
+							response.getWriter().append(String.format("{\"result\":%s, \"id\":%d}", done, notifId));
+							return;
+						}
 					}
 				}
 			}

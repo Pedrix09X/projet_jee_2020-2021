@@ -31,9 +31,10 @@ if (notifs!=null && notifs.size() > 0) {
 			}
 		} else if (notif.getType() == NotificationTable.ASK_FRIEND){
 			if (notif.isSeen())
-				colorClass = "border-warning border-3";
+				colorClass = "border-secondary border-3";
 			else {
-				colorClass = "bg-warning";
+				colorClass = "bg-secondary";
+				colorText = "text-white";
 				buttons = ""
 					+ "<div class=\"d-flex justify-content-evenly\">"
 					+ "		<button class=\"btn btn-success col-lg-4 btnAccept\">Accepter</button>"
