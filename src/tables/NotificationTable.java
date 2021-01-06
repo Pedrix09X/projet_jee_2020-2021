@@ -47,6 +47,9 @@ public class NotificationTable implements Table {
 				notification.setId(rs.getInt(COLUMN_ID));
 				notification.setText(rs.getString(COLUMN_TEXT));
 				notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+				notification.setSeen(rs.getBoolean(COLUMN_SEEN));
+				notification.setType(rs.getInt(COLUMN_TYPE));
+				notification.setAction(rs.getString(COLUMN_ACTION));
 				notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 				notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 			} catch (EntityException e) {
@@ -71,6 +74,9 @@ public class NotificationTable implements Table {
 					notification.setId(rs.getInt(COLUMN_ID));
 					notification.setText(rs.getString(COLUMN_TEXT));
 					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+					notification.setSeen(rs.getBoolean(COLUMN_SEEN));
+					notification.setType(rs.getInt(COLUMN_TYPE));
+					notification.setAction(rs.getString(COLUMN_ACTION));
 					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 					notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 					notifications.add(notification);
@@ -97,6 +103,9 @@ public class NotificationTable implements Table {
 					notification.setId(rs.getInt(COLUMN_ID));
 					notification.setText(rs.getString(COLUMN_TEXT));
 					notification.setReceivedDate(rs.getDate(COLUMN_RECEIVEDDATE));
+					notification.setSeen(rs.getBoolean(COLUMN_SEEN));
+					notification.setType(rs.getInt(COLUMN_TYPE));
+					notification.setAction(rs.getString(COLUMN_ACTION));
 					notification.setUser(userTable.getByID(rs.getInt(COLUMN_USER)));
 					notification.setFriend(userTable.getByID(rs.getInt(COLUMN_FRIEND)));
 					notifications.add(notification);

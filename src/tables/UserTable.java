@@ -35,8 +35,7 @@ public class UserTable implements Table {
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {id});
 		
 		User user = null;
-		if (rs != null) {
-			rs.next();
+		if (rs != null && rs.next()) {
 			user = new User();
 			try {
 				user.setId(rs.getInt(COLUMN_ID));
@@ -234,7 +233,7 @@ public class UserTable implements Table {
 					if (this.save(kUser)) {
 						// Envoi de la notification à l'utilisateur
 						TableLocator.getNotificationTable().sendNotificationTo(kUser, 
-								"Vous avez été en contact avec une personne infecté, ces 10 derniers jours. Faites vous tester le plus vite possible !", 
+								"Une personne que vous avez rencontré ces 10 derniers a été infecté. Faites vous tester le plus vite possible !", 
 								NotificationTable.CONTACT, "");
 					}
 				}
