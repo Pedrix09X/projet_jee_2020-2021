@@ -70,6 +70,8 @@ public class DBConnector {
 						stmt.setInt(i+1, (int) param);
 					} else if (param.getClass().equals(Boolean.class)) {
 						stmt.setBoolean(i+1, (boolean) param);
+					} else if (param.getClass().equals(Timestamp.class)) {
+						stmt.setTimestamp(i+1, (Timestamp) param);
 					} else if (param.getClass().equals(Date.class)) {
 						stmt.setDate(i+1, (Date) param);
 					}
