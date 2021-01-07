@@ -58,5 +58,23 @@ public class FriendTable {
 		
 		return done;
 	}
+	
+	/**
+	 * Supprime l'ami friend de la liste d'amis de user.
+	 * @param user Ne doit pas être null. Utilisateur a qui supprimer l'ami
+	 * @param friend Ne doit pas être null. Ami qui doit être supprimé
+	 * @return true si tout va bien.
+	 */
+	public boolean delFriend(User user, User friend) {
+		boolean done = false;
+		if (user != null && friend != null) {
+			String sql = "DELETE FROM " + TABLE_NAME + " WHERE (" + COLUMN_USER + "=? AND " + COLUMN_FRIEND + "=?) OR (" + COLUMN_USER + "=? AND " + COLUMN_FRIEND + "=?)";
+			Object[] params = {user.getId(), friend.getId(), friend.getId(), user.getId()};
+			DBConnector.getInstance().insertQuery(sql, params);
+			done = true;
+		}
+		
+		return done;
+	}
 
 }

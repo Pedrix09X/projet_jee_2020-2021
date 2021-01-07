@@ -3,6 +3,7 @@ package controlers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -98,6 +99,39 @@ public class Friend extends HttpServlet {
 		}
 		
 		response.sendRedirect(request.getContextPath());
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		boolean done = false;
+		if (user != null) {
+			String sId = req.getParameter("friendID");
+			if (sId != null) {
+				int friendID = Integer.parseInt(sId);
+				User friend;
+				try {
+					friend = TableLocator.getUserTable().getByID(friendID);
+					if (friend != null) {
+						done = TableLocator.getFriendTable().delFriend(user, friend);
+						TableLocator.getNotificationTable().sendNotificationTo(friend, 
+								user.getLogin() + " vous a retiré de sa liste d'amis.");
+					} else {
+						System.out.println("friend null");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					done = false;
+				}
+				
+			}
+		}
+		
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		resp.getWriter().append(String.format("{\"result\":%s}", done));
 	}
 
 }

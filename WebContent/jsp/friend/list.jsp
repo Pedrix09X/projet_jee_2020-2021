@@ -30,7 +30,7 @@ if (friends != null && friends.size() > 0) {
 	%>
 	<div class="d-lg-flex bg-secondary bg-gradient text-white rounded-3 shadow p-2 col-lg-4 me-2">
 		<input class="userID" type="hidden" value="<%=friend.getId()%>"/>
-		<button type="button" class="btn-close p-2" aria-label="Delete" data-bs-toggle="modal" data-bs-target="#confirmDelete"></button>
+		<button type="button" class="btnDelete btn-close p-2" aria-label="Delete"></button>
 		<h5 class="p-2"><%=friend.getLogin()%></h5>
 		<span class="p-2"><%=friend.getFirstName()%> <%=friend.getLastName()%></span>
 	</div>
@@ -49,26 +49,5 @@ if (friends != null && friends.size() > 0) {
 <%
 	}
 %>
-
-<div class="modal fade" id="confirmDelete" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Attention !</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				Vous êtes sur le point de supprimer cet utilisateur de votre liste d'amis. Êtes-vous sûr de vouloir continuer ?
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Fermer</button>
-				<button type="button" class="btnDelete btn btn-primary">Confirmer</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <script src="<%=request.getContextPath()%>/js/searchFriends.js"></script>
