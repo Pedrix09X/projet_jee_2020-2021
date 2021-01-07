@@ -3,7 +3,9 @@ package tables;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import entities.Activity;
 import entities.Entity;
@@ -251,6 +253,7 @@ public class UserTable implements Table {
 	public boolean markUserAsInfected(User user) {
 		boolean done = false;
 		
+		/*
 		// Cette longue requête SQL va récupérer, dans le BDD, tous les utilisateurs qui ont été en contact avec l'utilisateur infecté ces 10 derniers jours
 		String sql = "SELECT * FROM " + UserTable.TABLE_NAME
 				+ " WHERE " + UserTable.TABLE_NAME + "." + UserTable.COLUMN_ID + " IN ("
@@ -266,19 +269,65 @@ public class UserTable implements Table {
 				+ "                WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " = ?"
 				+ "                  AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " > CURRENT_TIMESTAMP() - INTERVAL 10 DAY)));";
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
+		*/
 		
+		// On récupère les activités que l'utilisateur a déclarées les dix jours précédents
+		ArrayList<Activity> activities = new ArrayList<Activity>();
+		String getUserActivities = "SELECT * FROM " + ActivityTable.TABLE_NAME
+				+ " WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " = ? "
+				+ " AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " > CURRENT_TIMESTAMP() - INTERVAL 10 DAY;";
+		ResultSet rs = DBConnector.getInstance().executeQuery(getUserActivities, new Object[] {user.getId()});
+
+		Activity activity;
+		try {
+			while(rs.next()) {
+				activity = new Activity();
+				try {
+					activity.setId(rs.getInt(ActivityTable.COLUMN_ID));
+					activity.setTitle(rs.getString(ActivityTable.COLUMN_TITLE));
+					activity.setStartDate(rs.getTimestamp(ActivityTable.COLUMN_STARTDATE));
+					activity.setEndDate(rs.getTimestamp(ActivityTable.COLUMN_ENDDATE));
+					activity.setLocation(TableLocator.getLocationTable().getByID(rs.getInt(ActivityTable.COLUMN_LOCATION)));
+					activity.setUser(user);
+					activities.add(activity);
+				} catch (EntityException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// Pour chaque activité, on récupère les id des utilisateurs ayant effectué une activité dans le même lieu et sur les mêmes plages horaires
+		Set<Integer> idContacts = new HashSet<Integer>();
+		for (Activity a : activities) {
+			String getCasContacts = "SELECT DISTINCT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " FROM " + ActivityTable.TABLE_NAME
+					+ " WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " != ?"
+					+ " AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION + " = ? "
+					+ " AND (" + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " BETWEEN ? " + " AND ? "
+					+ " OR " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ENDDATE + " BETWEEN ? " + " AND ? )";
+			ResultSet utils = DBConnector.getInstance().executeQuery(getCasContacts, new Object[] {a.getUser().getId(), a.getLocation().getId(), a.getStartDate(), a.getEndDate(), a.getStartDate(), a.getEndDate()});
+			try {
+				while (utils.next()) {
+					idContacts.add(utils.getInt(1));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+
 		// Parcours du résultat de la requête 
 		try {
-			User kUser;
-			while (rs.next()) {
+			User casContact;
+			for (Integer i : idContacts) {
 				// Récupération de l'utilisateur par l'ID
-				kUser = this.getByID(rs.getInt(COLUMN_ID));
-				if (kUser != null && kUser.getId() != user.getId()) {
+				casContact = this.getByID(i);
+				if (casContact != null && casContact.getId() != user.getId()) {
 					// Marquer comme cas contact et sauvegarder
-					kUser.setContact(true);
-					if (this.save(kUser)) {
+					casContact.setContact(true);
+					if (this.save(casContact)) {
 						// Envoi de la notification à l'utilisateur
-						TableLocator.getNotificationTable().sendNotificationTo(kUser, 
+						TableLocator.getNotificationTable().sendNotificationTo(casContact, 
 								"Une personne que vous avez rencontré ces 10 derniers a été infecté. Faites vous tester le plus vite possible !", 
 								NotificationTable.CONTACT, "", null);
 					}
