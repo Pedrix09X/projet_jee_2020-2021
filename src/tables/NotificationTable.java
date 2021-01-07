@@ -191,7 +191,11 @@ public class NotificationTable implements Table {
 				+ COLUMN_USER + ", "
 				+ COLUMN_FRIEND + ") "
 				+ "VALUES(?,?,?,?,?,?,?)";
-		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), e.getFriend()};
+		Object friend = null;
+		if (e.getFriend() != null) {
+			friend = e.getFriend().getId();
+		}
+		Object[] params = {e.getText(), e.getReceivedDate(), e.isSeen(), e.getType(), e.getAction(), e.getUser().getId(), friend};
 		int id = DBConnector.getInstance().insertQuery(sql, params);
 		try {
 			e.setId(id);
@@ -208,7 +212,7 @@ public class NotificationTable implements Table {
 	 * @return true si l'opération reussi.
 	 */
 	public boolean sendNotificationTo(User user, String text) {
-		return sendNotificationTo(user, text, DEFAULT, "");
+		return sendNotificationTo(user, text, DEFAULT, "", null);
 	}
 	
 	/**
@@ -216,9 +220,10 @@ public class NotificationTable implements Table {
 	 * @param user Utilisateur à qui envoyer la notification
 	 * @param text Contenu de la notification
 	 * @param type Spécifie le type de notification parmi Type.Default, Type.Contact, Type.Ask_Friend
+	 * @param friend Indique la personne qui est a l'origine de la notification si c'est une demande d'ami. Doit être null dans le cas contraire.
 	 * @return true si l'opération reussi.
 	 */
-	public boolean sendNotificationTo(User user, String text, int type, String act) {
+	public boolean sendNotificationTo(User user, String text, int type, String act, User friend) {
 		Notification notif = new Notification();
 		boolean done = true;
 		try {
@@ -226,6 +231,7 @@ public class NotificationTable implements Table {
 			notif.setUser(user);
 			notif.setType(type);
 			notif.setAction(act);
+			notif.setFriend(friend);
 			done = this.save(notif);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -22,8 +22,8 @@
 				%>
 				<li class="nav-item p-2"><a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#positifModal">Je suis positif !</a></li>
 				<%} %>
-			<li class="nav-item p-2"><a class="nav-link" href="activity?s=list">Liste de mes activités</a></li>
-			<li class="nav-item p-2"><a class="nav-link" href="activity?s=add">Ajouter une activité</a></li>
+			<li class="nav-item p-2"><a class="nav-link" href="activity?s=list">Mes activités</a></li>
+			<li class="nav-item p-2"><a class="nav-link" href="friend">Mes amis</a></li>
 			<%} %>
 		</ul>
 	</div>

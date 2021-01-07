@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entities.User;
+import tables.NotificationTable;
 import tables.TableLocator;
 
 /**
@@ -63,22 +64,50 @@ public class Notification extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 		String s = request.getParameter("s");
-		if (s != null && s.equals("seen")) {
-			if (request.getParameter("r").equals("json")) {
+		String r = request.getParameter("r");
+		
+		if (user != null) {
+			if (r != null && r.equals("json")) {
 		        response.setContentType("application/json");
 		        response.setCharacterEncoding("UTF-8");
-		        
-		        String sId = request.getParameter("id");
-		        if (sId != null) {
-		        	boolean done = false;
-		        	int id = Integer.parseInt(sId);
-		        	done = TableLocator.getNotificationTable().markAsSeen(id);
-		        	response.getWriter().append(String.format("{\"result\":%s, \"id\":%d}", done, id));
-		        }
 			}
-		} else {
-			doGet(request, response);
+			
+			if (s != null && s.equals("seen")) {
+				String sId = request.getParameter("id");
+				if (sId != null) {
+					boolean done = false;
+					int id = Integer.parseInt(sId);
+					done = TableLocator.getNotificationTable().markAsSeen(id);
+					response.getWriter().append(String.format("{\"result\":%s, \"id\":%d}", done, id));
+				}
+			} else if(s != null && s.equals("ask")) {
+				boolean done = false;
+				String login = request.getParameter("user");
+				if (login != null) {
+					User friend;
+					try {
+						friend = TableLocator.getUserTable().getByLogin(login);
+						if (friend != null) {
+							done = TableLocator.getNotificationTable().sendNotificationTo(
+									friend, 
+									user.getLogin() + " veut vous ajouter à sa liste d'amis. Voulez-vous accepter ?", 
+									NotificationTable.ASK_FRIEND, "", user);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+						done = false;
+					}
+					
+					String result = String.format("{\"result\":%s}", done);
+					response.getWriter().append(result);
+	
+				}
+			} else {
+				doGet(request, response);
+			}
 		}
 	}
 

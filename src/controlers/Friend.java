@@ -2,6 +2,8 @@ package controlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,8 @@ import tables.TableLocator;
 @WebServlet("/Friend")
 public class Friend extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    private static final String TITLE = "Mes amis";
+    private static final String PAGE_NAME = "friend/list.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,6 +32,29 @@ public class Friend extends HttpServlet {
         super();
     }
 
+    /**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		// Si un petit malin essai d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
+		if (user == null) {
+			session.setAttribute("error", "Vous devez être connecté pour accéder à cette ressource.");
+			response.sendRedirect("login");
+			return;
+		}
+		
+		List<User> friends = null;
+		TableLocator.getFriendTable().getFriendsOf(user);
+		friends = user.getFriends();
+		request.setAttribute("title", TITLE);
+		request.setAttribute("page", PAGE_NAME);
+		request.setAttribute("list", friends);
+		request.getRequestDispatcher("jsp/default.jsp").forward(request, response);
+	}
+    
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -50,6 +77,7 @@ public class Friend extends HttpServlet {
 						friend = notif.getFriend();
 						if (friend != null) {
 							done = TableLocator.getFriendTable().addFriend(user, friend);
+							done = done && TableLocator.getFriendTable().addFriend(friend, user);
 						}
 					} catch (SQLException e) {
 						e.printStackTrace();

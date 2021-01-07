@@ -20,7 +20,7 @@ public class Notification implements Entity {
 	public Notification() {
 		this.id = -1;
 		this.text = "";
-		this.receivedDate = new Date(0);
+		this.receivedDate = new Date(System.currentTimeMillis());
 		this.seen = false;
 		this.type = 0;
 		this.action = "";

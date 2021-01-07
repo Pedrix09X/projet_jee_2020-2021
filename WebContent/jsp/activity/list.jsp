@@ -7,6 +7,8 @@
 
 <%@include file="../elements/message.jsp"%>
 
+<a href="<%=request.getContextPath()%>/activity?s=add" class="btn btn-outline-success mb-3 col-lg-12">+ Ajouter une activité</a>
+
 <%
 	List<Activity> activities = (List<Activity>) request.getAttribute("list");
 if (activities.size() > 0) {

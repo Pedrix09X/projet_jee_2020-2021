@@ -83,6 +83,52 @@ public class UserTable implements Table {
 		}
 		return users;
 	}
+	
+	public User getByLogin(String login) throws SQLException {
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_LOGIN + "=?";
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {login});
+		
+		User user = null;
+		if (rs != null && rs.next()) {
+			user = new User();
+			try {
+				user.setId(rs.getInt(COLUMN_ID));
+				user.setLogin(rs.getString(COLUMN_LOGIN));
+				user.setPassword(rs.getString(COLUMN_PASSWORD));
+				user.setFirstName(rs.getString(COLUMN_FIRSTNAME));
+				user.setLastName(rs.getString(COLUMN_LASTNAME));
+				user.setBirthDate(rs.getDate(COLUMN_BIRTHDATE));
+				user.setInfected(rs.getBoolean(COLUMN_INFECTED));
+				user.setContact(rs.getBoolean(COLUMN_CONTACT));
+				user.setAdmin(rs.getBoolean(COLUMN_ADMIN));
+			} catch (EntityException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+	
+	/**
+	 * Cherche dans la BDD les utilisateur qui ont un nom d'utilisateur qui comencent par le paramêtre.
+	 * @param partialLogin Nom d'utilisateur partiel pour la recherche
+	 * @return la liste des nom d'utilisateurs trouvés
+	 */
+	public List<String> findLogins(String partialLogin) {
+		String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ? ORDER BY %s",
+				COLUMN_LOGIN, TABLE_NAME, COLUMN_LOGIN, COLUMN_LOGIN);
+		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {partialLogin+"%"});
+		
+		List<String> logins = new ArrayList<String>();
+		try {
+			if (rs != null) {
+				while (rs.next()) 
+					logins.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return logins;
+	}
 
 	@Override
 	public boolean save(Entity e) throws SQLException {
@@ -234,7 +280,7 @@ public class UserTable implements Table {
 						// Envoi de la notification à l'utilisateur
 						TableLocator.getNotificationTable().sendNotificationTo(kUser, 
 								"Une personne que vous avez rencontré ces 10 derniers a été infecté. Faites vous tester le plus vite possible !", 
-								NotificationTable.CONTACT, "");
+								NotificationTable.CONTACT, "", null);
 					}
 				}
 			}

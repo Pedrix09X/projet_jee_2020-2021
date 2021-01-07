@@ -100,6 +100,16 @@
 		<url-pattern>/friend</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>FindFriends</servlet-name>
+		<servlet-class>controlers.FindFriends</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>FindFriends</servlet-name>
+		<url-pattern>/find</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>filters.EncodingFilter</filter-class>
