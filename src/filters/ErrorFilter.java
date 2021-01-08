@@ -23,12 +23,16 @@ public class ErrorFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpSession session = ((HttpServletRequest)request).getSession();
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest)req;
+		HttpServletResponse response = (HttpServletResponse)res;
+		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		if (user == null || !user.isAdmin()) {
-			((HttpServletResponse)response).sendError(403);
+		if (user == null) {
+			response.sendRedirect(request.getContextPath());
+		} else if (!user.isAdmin()) {
+			response.sendError(403);
 		} else {
 			chain.doFilter(request, response);
 		}

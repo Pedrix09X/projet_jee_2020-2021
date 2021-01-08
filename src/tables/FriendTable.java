@@ -71,6 +71,8 @@ public class FriendTable {
 			String sql = "DELETE FROM " + TABLE_NAME + " WHERE (" + COLUMN_USER + "=? AND " + COLUMN_FRIEND + "=?) OR (" + COLUMN_USER + "=? AND " + COLUMN_FRIEND + "=?)";
 			Object[] params = {user.getId(), friend.getId(), friend.getId(), user.getId()};
 			DBConnector.getInstance().insertQuery(sql, params);
+			user.getFriends().remove(friend);
+			friend.getFriends().remove(user);
 			done = true;
 		}
 		

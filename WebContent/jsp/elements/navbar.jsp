@@ -24,6 +24,9 @@
 				<%} %>
 			<li class="nav-item p-2"><a class="nav-link" href="activity?s=list">Mes activités</a></li>
 			<li class="nav-item p-2"><a class="nav-link" href="friend">Mes amis</a></li>
+				<%if (user.isAdmin()) { %>
+				<li class="nav-item p-2"><a class="nav-link" href="admin">Administrateur</a></li>
+				<%}%>
 			<%} %>
 		</ul>
 	</div>

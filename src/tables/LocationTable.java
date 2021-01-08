@@ -45,7 +45,7 @@ public class LocationTable implements Table {
 
 	@Override
 	public List<Entity> getAll() throws SQLException {
-		String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_NAME;
+		String sql = "SELECT * FROM " + TABLE_NAME;
 		ResultSet rs = DBConnector.getInstance().executeQuery(sql);
 		
 		ArrayList<Entity> locations = new ArrayList<Entity>();
@@ -116,5 +116,12 @@ public class LocationTable implements Table {
 			e1.printStackTrace();
 		}
 		return id != -1;
+	}
+
+	public boolean delById(int id) {
+		boolean done = false;
+		String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
+		done = -1 == DBConnector.getInstance().insertQuery(sql, new Object[] {id});
+		return done;
 	}
 }

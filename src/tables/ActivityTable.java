@@ -113,6 +113,13 @@ public class ActivityTable implements Table {
 		return activities;
 	}
 
+	public boolean delById(int id) {
+		boolean done = false;
+		String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
+		done = -1 == DBConnector.getInstance().insertQuery(sql, new Object[] {id});
+		return done;
+	}
+	
 	@Override
 	public boolean save(Entity e) throws SQLException {
 		if (e.getClass().equals(Activity.class)) {

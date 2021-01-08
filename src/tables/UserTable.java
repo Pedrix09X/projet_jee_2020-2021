@@ -339,4 +339,11 @@ public class UserTable implements Table {
 		}
 		return done;
 	}
+
+	public boolean delById(int id) {
+		boolean done = false;
+		String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?";
+		done = -1 == DBConnector.getInstance().insertQuery(sql, new Object[] {id});
+		return done;
+	}
 }
