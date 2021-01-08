@@ -40,7 +40,7 @@ public class Friend extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		// Si un petit malin essai d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
+		// Si un petit malin essaie d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
 		if (user == null) {
 			session.setAttribute("error", "Vous devez être connecté pour accéder à cette ressource.");
 			response.sendRedirect("login");

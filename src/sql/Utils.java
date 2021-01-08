@@ -18,10 +18,10 @@ import org.apache.tomcat.util.codec.binary.Base64;
 public class Utils {
 
 	/**
-	 * Permet de hacher un mot de passe si celui-ci n'est pas vide. C'est utilisé pour le stockage de mot de passe.
-	 * @param password Mot de passe à hacher
+	 * Permet de hacher un mot de passe si celui-ci n'est pas vide.
+	 * @param password le mot de passe à hacher
 	 * @return le mot de passe haché
-	 * @throws Exception si une erreur se produit lors du processus de hache
+	 * @throws Exception si une erreur se produit lors du processus de hachage
 	 */
 	public static String hashPassword(String password) throws Exception {
 		if (password == null || password.length() == 0) {

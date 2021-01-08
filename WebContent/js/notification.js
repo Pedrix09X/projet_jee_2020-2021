@@ -14,7 +14,7 @@ $('document').ready(function() {
 	})
 })
 
-// Marque la notification comme lu. Si la notification est une demande d'amis, alors il faut passer le paramêtre force à true.
+// Marque la notification comme lue. Si la notification est une demande d'ami, il faut passer le paramètre force à true.
 function markAsSeen(notif, force) {
 	var notifID = notif.find(".notifID").val()
 	var notifSeen = notif.find(".notifSeen").val()

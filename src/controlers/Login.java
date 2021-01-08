@@ -59,7 +59,7 @@ public class Login extends HttpServlet {
 			try {
 				user = userTable.login(request.getParameter("login"), Utils.hashPassword(request.getParameter("pass")));
 				if (user == null) {
-					session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");
+					session.setAttribute("error", "Nom d'utilisateur ou mot de passe incorrect.");
 					doGet(request, response);
 				} else {
 					session.setAttribute("user", user);
@@ -67,7 +67,7 @@ public class Login extends HttpServlet {
 					response.sendRedirect(request.getContextPath());
 				}
 			} catch (Exception e) {
-				session.setAttribute("error", "Une erreur est survenu lors de la connexion à votre compte. Réessayez ultérieurement.");
+				session.setAttribute("error", "Une erreur est survenue lors de la connexion à votre compte. Réessayez ultérieurement.");
 				doGet(request, response);
 			}
 		} else {

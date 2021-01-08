@@ -50,7 +50,7 @@ public class Admin extends HttpServlet {
 			switch (s) {
 			case "activity":
 				page = ACTIVITY_PAGE;
-				request.setAttribute("title", "Admin(activity)");
+				request.setAttribute("title", "Admin (activity)");
 				try {
 					entities.addAll(TableLocator.getActivityTable().getAll());
 				} catch (SQLException e) {
@@ -59,7 +59,7 @@ public class Admin extends HttpServlet {
 				break;
 			case "location":
 				page = LOCATION_PAGE;
-				request.setAttribute("title", "Admin(location)");
+				request.setAttribute("title", "Admin (location)");
 				try {
 					entities.addAll(TableLocator.getLocationTable().getAll());
 				} catch (SQLException e) {
@@ -68,7 +68,7 @@ public class Admin extends HttpServlet {
 				break;
 			case "user":
 				page = USER_PAGE;
-				request.setAttribute("title", "Admin(user)");
+				request.setAttribute("title", "Admin (user)");
 				try {
 					entities.addAll(TableLocator.getUserTable().getAll());
 				} catch (SQLException e) {

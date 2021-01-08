@@ -61,13 +61,13 @@
         String btnLink = "";
         if (user != null) {
         	if (user.isInfected()) {
-        		msg = "Si vous n'êtes plus infecté, vous pouvez l'indiquer ici, en cliquant sur le bouton ci-dessous. Faite le uniquement si"
-        				+ " vous avez effectué un test qui présente un résultat négatif.";
+        		msg = "Si vous n'êtes plus contaminé, vous pouvez l'indiquer ici, en cliquant sur le bouton ci-dessous. Faites-le uniquement si"
+        				+ " vous avez effectué un test qui a présenté un résultat négatif.";
         		btnLink = "covided?undo=1";
         	} else {
         		msg = "Cette action est à effectuer uniquement si vous êtes certain d'être positif au COVID-19. Cela aura pour effet d'envoyer"
-                    	+ " une notification à toutes les personnes qui ont visité les même lieux que vous depuis les 10 derniers jours, afin de les"
-                    	+ " prévenir qu'il sont potentiellement cas contact. Les personnes concerné ne sauront pas que vous êtes infecté.";
+                    	+ " une notification à toutes les personnes qui ont visité les même lieux que vous durant les 10 derniers jours, afin de les"
+                    	+ " prévenir qu'ils sont potentiellement cas contacts. Les personnes concernées ne sauront pas que vous êtes contaminé.";
         		btnLink = "covided";
         	}
         } else { 

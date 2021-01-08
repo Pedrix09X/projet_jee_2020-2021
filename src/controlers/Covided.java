@@ -56,7 +56,7 @@ public class Covided extends HttpServlet {
 				done = false;
 			}
 			if (done) {
-				session.setAttribute("success", "Félicitation pour votre rétablissement! Nous sommes content de savoir que vous allez mieux.");
+				session.setAttribute("success", "Félicitations pour votre rétablissement ! Nous sommes heureux de savoir que vous allez mieux.");
 				response.sendRedirect(request.getContextPath());
 			} else {
 				session.setAttribute("error", "Une erreur s'est produite et le changement n'a pas été enregistré.");
@@ -64,10 +64,10 @@ public class Covided extends HttpServlet {
 			}
 		} else {
 			if (TableLocator.getUserTable().markUserAsInfected(user)) {		// Si l'utilisateur est infecté
-				session.setAttribute("success", "Vous avez été marqué comme infecté. Tous les utilisateurs concerné seront marqués comme \"cas contact\" et vont être notifiés.");
+				session.setAttribute("success", "Vous avez été identifié comme contaminé. Tous les utilisateurs concernés seront identifiés comme \"cas contact\" et vont être notifiés.");
 				response.sendRedirect(request.getContextPath());
 			} else {
-				session.setAttribute("error", "Une erreur s'est produite et vous n'avez pas été marqué comme infecté. Veuillez réessayer ultérieurement.");
+				session.setAttribute("error", "Une erreur s'est produite et vous n'avez pas été identifié comme contaminé. Veuillez réessayer ultérieurement.");
 				response.sendRedirect(request.getContextPath());
 			}
 		}

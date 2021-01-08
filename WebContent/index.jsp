@@ -22,7 +22,7 @@
 			<div class="lastUpdate col-lg-4"></div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12"><h4>Depuis la dernières mise à jour</h4></div>
+			<div class="col-lg-12"><h4>Depuis la dernière mise à jour</h4></div>
 		</div>
 		<div class="d-lg-flex justify-content-evenly mb-4">
 			<div class="shadow text-center diffCase p-4 col-lg-3 rounded-3 bg-secondary bg-gradient text-white"><p class="fs-3 fw-bold"></p>cas confirmés</div>

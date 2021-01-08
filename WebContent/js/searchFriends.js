@@ -5,10 +5,10 @@ $('document').ready(function() {
 		split[split.length - 1] = "find"
 		url = split.join("/")
 
-		// Mise en place des paramêtres de la requête
+		// Mise en place des paramètres de la requête
 		var partial = $(this).val()
 
-		// Execution de la requête post
+		// Exécution de la requête post
 		if (partial !== "" && partial !== " ") {
 			var data = {
 				partialLogin: partial,
@@ -33,7 +33,7 @@ $('document').ready(function() {
 		split[split.length - 1] = "notif"
 		url = split.join("/")
 
-		// Execution de la requête post
+		// Exécution de la requête post
 		if (login !== "" && login !== " ") {
 			var data = {
 				s: "ask",
@@ -76,7 +76,7 @@ function updateFriends(data, status) {
 	var result = data.result
 	var resultText = $('.resultText')
 	if (result) {
-		resultText.text("La demande a été envoyé avec succées !")
+		resultText.text("La demande a été envoyée avec succès !")
 		resultText.removeClass("text-danger")
 		resultText.addClass("text-success")
 	} else {

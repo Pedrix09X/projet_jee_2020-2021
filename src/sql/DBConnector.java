@@ -13,7 +13,7 @@ public class DBConnector {
 	
 	private static DBConnector instance;
 	
-	// Données de connection
+	// Données de connexion
 	private final String user = "root";
 	private final String pass = "root";
 	private final String host = "localhost";
@@ -23,16 +23,16 @@ public class DBConnector {
 	
 	private DBConnector () {
 		try {
-			// Création de la connection
+			// Création de la connexion
 		    this.connection = DriverManager.getConnection(url, user, pass);
 		} catch ( SQLException e ) {
-			System.out.println("Erreur lors de la connection à la BDD");
+			System.out.println("Erreur lors de la connexion à la BDD.");
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Récupération d'une instance unique à DBConnector (singleton)
+	 * Récupération d'une instance unique de DBConnector (singleton)
 	 * @return DBConnector
 	 */
 	public static synchronized DBConnector getInstance() {
@@ -44,7 +44,7 @@ public class DBConnector {
 	}
 	
 	/**
-	 * Récupération de la connection
+	 * Récupération de la connexion
 	 * @return Connection vers la BDD
 	 */
 	public Connection getConnection() {
@@ -123,7 +123,7 @@ public class DBConnector {
 	}
 	
 	/**
-	 * Methode qui permet de tester la connection a la BDD
+	 * Méthode qui permet de tester la connection à la BDD
 	 * @return String de la liste des tables
 	 */
 	public String test() {

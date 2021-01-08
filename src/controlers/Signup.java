@@ -83,7 +83,7 @@ public class Signup extends HttpServlet {
 						session.setAttribute("error", "Cet identifiant est déjà utilisé.");
 						doGet(request, response);
 	
-					// Verification du nom et du prénom
+					// Vérification du nom et du prénom
 					} else if (lastName.isBlank()) {
 						session.setAttribute("error", "Le nom ne doit pas être vide.");
 						doGet(request, response);
@@ -115,7 +115,7 @@ public class Signup extends HttpServlet {
 						user.setBirthDate(dob);
 	
 						userTable.save(user);
-						TableLocator.getNotificationTable().sendNotificationTo(user, "Bravo ! Votre inscription est terminé. Vous faite maintenant partie de la famille !");
+						TableLocator.getNotificationTable().sendNotificationTo(user, "Bravo ! Votre inscription est terminée. Vous faites maintenant partie de la famille !");
 						session.setAttribute("user", user);
 						session.setAttribute("success", "Bonjour, " + user.getLogin() + ". Vous êtes désormais connecté.");
 						response.sendRedirect(request.getContextPath());
@@ -126,7 +126,7 @@ public class Signup extends HttpServlet {
 				}
 	
 			} catch (Exception e) {
-				session.setAttribute("error", "Une erreur est survenu lors de l'inscription. Réessayez ultérieurement.");
+				session.setAttribute("error", "Une erreur est survenue lors de l'inscription. Réessayez ultérieurement.");
 				doGet(request, response);
 			}
 		} else {

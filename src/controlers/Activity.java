@@ -45,14 +45,14 @@ public class Activity extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		// Si un petit malin essai d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
+		// Si un petit malin essaie d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
 		if (user == null) {
 			session.setAttribute("error", "Vous devez être connecté pour accéder à cette ressource.");
 			response.sendRedirect("login");
 			return;
 		}
 
-		// Si aucun paramêtre n'est donné, on redirige l'utilisateur vers la liste des activités.
+		// Si aucun paramètre n'est donné, on redirige l'utilisateur vers la liste des activités.
 		if (request.getParameter("s") == null) {
 			response.sendRedirect("activity?s=list");
 			return;
@@ -92,7 +92,7 @@ public class Activity extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		entities.Activity activity = new entities.Activity();
 
-		// Si un petit malin essai d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
+		// Si un petit malin essaie d'accéder à l'une des pages sans être connecté, il sera redirigé vers la page de connexion
 		if (user == null) {
 			session.setAttribute("error", "Vous devez être connecté pour accéder à cette ressource.");
 			response.sendRedirect("login");
@@ -103,7 +103,7 @@ public class Activity extends HttpServlet {
 			String name = request.getParameter("activityName");
 			Timestamp start, end;
 			try {
-				start = Utils.getTimestampOf(request.getParameter("start"));	// On récupère le timestamp correspondant au parametre recu
+				start = Utils.getTimestampOf(request.getParameter("start"));	// On récupère le timestamp correspondant au paramètre reçu
 				end = Utils.getTimestampOf(request.getParameter("end"));
 			} catch (Exception e){
 				e.printStackTrace();
@@ -128,19 +128,19 @@ public class Activity extends HttpServlet {
 			
 			// Test si l'une des dates est null
 			if (start == null || end == null) {
-				session.setAttribute("error", "La date de début ou la date de fin n'est pas correctement formée.");
+				session.setAttribute("error", "La date de début ou la date de fin n'est pas correctement formatée.");
 				response.sendRedirect("activity?s=add");
 				return;
 			}
 			
 			// Test si la localisation est valide
 			if (locID == -1) {
-				session.setAttribute("error", "Vous devez choisir un lieu pour ajouter une activité");
+				session.setAttribute("error", "Vous devez choisir un lieu pour ajouter une activité.");
 				response.sendRedirect("activity?s=add");
 				return;
 			}
 			
-			// Si tous ces testes ont échoué, alors on continue et on crée l'activité
+			// Si tous ces tests ont échoué, alors on continue et on crée l'activité
 			activity.setTitle(name);
 			activity.setStartDate(start);
 			activity.setEndDate(end);
@@ -152,13 +152,13 @@ public class Activity extends HttpServlet {
 				return;
 			}
 			
-			TableLocator.getNotificationTable().sendNotificationTo(user, "Vous avez ajouté l'activité \"" + activity.getTitle() + "\" à votre liste d'activité.");
+			TableLocator.getNotificationTable().sendNotificationTo(user, "Vous avez ajouté l'activité \"" + activity.getTitle() + "\" à votre liste d'activités.");
 			
-			session.setAttribute("success", "Activité ajouté avec succès.");
+			session.setAttribute("success", "Activité ajoutée avec succès.");
 			response.sendRedirect("activity?s=list");
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.setAttribute("error", "Une erreur est survenu lors de l'ajout. Réessayez ultérieurement.");
+			session.setAttribute("error", "Une erreur est survenue lors de l'ajout. Réessayez ultérieurement.");
 			response.sendRedirect("activity?s=add");
 		}
 		

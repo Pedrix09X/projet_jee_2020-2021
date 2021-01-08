@@ -8,7 +8,7 @@ $('document').ready(function() {
 		split[split.length-1] = "admin?s=activity&id=" + actID
 		url = split.join("/")
 		
-		// Execution de la requête post
+		// Exécution de la requête post
 		$.ajax({
 			method: "DELETE",
 			url : url,
@@ -33,7 +33,7 @@ $('document').ready(function() {
 		split[split.length-1] = "admin?s=activity&title=" + title + "&sd=" + sd + "&ed=" + ed + "&loc=" + loc + "&user=" + user
 		url = split.join("/")
 		
-		// Execution de la requête post
+		// Exécution de la requête post
 		$.ajax({
 			method: "PUT",
 			url : url,
