@@ -246,30 +246,12 @@ public class UserTable implements Table {
 	}
 
 	/**
-	 * Marque l'utilisateur comme infecté et cherche tous les utilisateur qui ont visité les même lieux afin de les marquer comme cas contact.
+	 * Marque l'utilisateur comme infecté et cherche tous les cas contacts.
 	 * @param user Utilisateur à infecté
 	 * @return true si l'opération à reussi
 	 */
 	public boolean markUserAsInfected(User user) {
 		boolean done = false;
-		
-		/*
-		// Cette longue requête SQL va récupérer, dans le BDD, tous les utilisateurs qui ont été en contact avec l'utilisateur infecté ces 10 derniers jours
-		String sql = "SELECT * FROM " + UserTable.TABLE_NAME
-				+ " WHERE " + UserTable.TABLE_NAME + "." + UserTable.COLUMN_ID + " IN ("
-				+ "    SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER
-				+ "    FROM " + ActivityTable.TABLE_NAME
-				+ "    WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + "> CURRENT_TIMESTAMP() - INTERVAL 10 DAY"
-				+ "      AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID + " IN ("
-				+ "        SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_ID
-				+ "        FROM " + ActivityTable.TABLE_NAME
-				+ "        WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION + " IN ("
-				+ "                SELECT " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_LOCATION
-				+ "                FROM " + ActivityTable.TABLE_NAME
-				+ "                WHERE " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_USER + " = ?"
-				+ "                  AND " + ActivityTable.TABLE_NAME + "." + ActivityTable.COLUMN_STARTDATE + " > CURRENT_TIMESTAMP() - INTERVAL 10 DAY)));";
-		ResultSet rs = DBConnector.getInstance().executeQuery(sql, new Object[] {user.getId()});
-		*/
 		
 		// On récupère les activités que l'utilisateur a déclarées les dix jours précédents
 		ArrayList<Activity> activities = new ArrayList<Activity>();
@@ -314,7 +296,13 @@ public class UserTable implements Table {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		
+		// On ajoute les amis de l'utilisateur à la liste des cas contacts
+		TableLocator.getFriendTable().getFriendsOf(user);
+		for (User u : user.getFriends()) {
+			idContacts.add(u.getId());
+		}
 
 		// Parcours du résultat de la requête 
 		try {
