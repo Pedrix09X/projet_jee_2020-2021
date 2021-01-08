@@ -5,9 +5,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<style type="text/css">
+#map{ /* La taille de la carte */
+	height:400px;
+}
+</style>
+
 <%@include file="../elements/message.jsp"%>
 
 <a href="<%=request.getContextPath()%>/activity?s=add" class="btn btn-outline-success mb-3 col-lg-12">+ Ajouter une activité</a>
+<button class="btnShow btn btn-primary mb-3 col-lg-12">Afficher la carte (Non implémenté)</button>
+
+<div id="map" class="mb-3">
+	<!-- Ici s'affichera la carte -->
+</div>
 
 <%
 	List<Activity> activities = (List<Activity>) request.getAttribute("list");
@@ -25,6 +36,7 @@ if (activities.size() > 0) {
 		    </div>
 		    <p class="mb-1"><Strong><%=activity.getTitle()%></Strong> <br> <%=activity.getLocation().getAddress()%></p>
 			<small class="text-muted"><%=activity.getLocation().getGPS()%></small>
+			<input class="gps" type="hidden" value="<%=activity.getLocation().getGPS()%>>"/>
 		</a>
 	<%
 		}
@@ -43,3 +55,6 @@ if (activities.size() > 0) {
 <%
 	}
 %>
+
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+<script src="<%=request.getContextPath()%>/js/map.js"></script>
